@@ -59,6 +59,7 @@ const SPEAKER_CARDS=[
   {
     id:"s1",
     speakerNum:1,
+    roleLabel:"主导",
     signal:"整场会议只在开场做了流程介绍，此后未参与任何实质讨论，发言时长占比不到5%。",
     quote:"我们先把预算和新业务承接这两个议题过一遍，今天先不展开竞品。",
     quoteTopic:"会议开场",
@@ -69,6 +70,7 @@ const SPEAKER_CARDS=[
   {
     id:"s2",
     speakerNum:3,
+    roleLabel:"质疑者",
     signal:"新业务讨论时全程沉默，但在预算议题上突然变得强势，两次打断别人发言。",
     quote:"我还是担心 Q2 直接把预算加到 300 万，渠道复用这件事没人拿过硬数据。",
     quoteTopic:"预算议题 T2",
@@ -79,6 +81,7 @@ const SPEAKER_CARDS=[
   {
     id:"s3",
     speakerNum:5,
+    roleLabel:"补充者",
     signal:"在讨论渠道策略时补了两次细节，但没有人明确接她的话，存在被边缘化的迹象。",
     quote:"如果北区渠道还是按去年的投法走，新增经销商这件事很可能起不来。",
     quoteTopic:"渠道策略 T3",
@@ -204,18 +207,18 @@ function PersonCard({card}){
   const handleCreateSubmit=({name,relation,note})=>{setBinding(name);setNewProfile({name,relation,note});setCreatedNew(true);setConfirmed(true);setShowHistory(true);setShowCreateDialog(false)};
   const m=EXISTING_PEOPLE.find(p=>p.name===binding);
   return <><div className="anim-up" style={{background:"#fff",borderRadius:16,border:`1px solid ${P.border}`,overflow:"hidden"}}>
-    <div style={{padding:"16px 20px"}}>
+    <div style={{padding:"16px 20px",position:"relative"}}>
+      {card.roleLabel&&<div style={{position:"absolute",top:16,right:20,fontSize:12,lineHeight:1,padding:"8px 12px",borderRadius:999,background:P.red,color:"#fff",fontWeight:700,fontFamily:F,boxShadow:"0 6px 18px rgba(196,92,92,.18)"}}>{card.roleLabel}</div>}
       <div className="flex items-start gap-3">
         <div className="relative" ref={dropRef}>
           <div style={{width:40,height:40,borderRadius:"50%",background:m?.bgColor||P.warm,display:"flex",alignItems:"center",justifyContent:"center",fontWeight:700,color:m?.color||P.inkMuted,fontSize:16,fontFamily:S,cursor:"pointer",border:`2px ${confirmed?"solid":"dashed"} ${confirmed?(m?.color||P.inkMuted):P.mAccent}`}} onClick={()=>setShowDrop(!showDrop)}>{binding?binding[0]:confirmed&&createdNew?"+":`#${card.speakerNum}`}</div>
           {showDrop&&<div className="absolute z-20 anim-in" style={{top:46,left:0,width:220,background:"#fff",borderRadius:12,border:`1px solid ${P.border}`,boxShadow:"0 8px 30px rgba(0,0,0,.12)",overflow:"hidden"}}><div style={{padding:"8px 12px",fontSize:11,color:P.inkFaint,borderBottom:`1px solid ${P.borderLight}`}}>优先从已有联系人里匹配确认</div>{EXISTING_PEOPLE.map(p=><button key={p.id} onClick={()=>handleSelect(p)} className="flex items-center gap-2 w-full transition-all duration-100" style={{padding:"8px 12px",border:"none",background:binding===p.name?P.warm:"#fff",cursor:"pointer",textAlign:"left",fontFamily:F}} onMouseEnter={e=>e.currentTarget.style.background=P.warm} onMouseLeave={e=>{if(binding!==p.name)e.currentTarget.style.background="#fff"}}><div style={{width:24,height:24,borderRadius:"50%",background:p.bgColor,display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,color:p.color}}>{p.avatar}</div><span style={{fontSize:13,color:P.ink}}>{p.name}</span><span style={{fontSize:11,color:P.inkFaint,marginLeft:"auto"}}>{p.meetings}次</span></button>)}<button onClick={handleCreate} className="w-full transition-all duration-100" style={{padding:"8px 12px",border:"none",borderTop:`1px solid ${P.borderLight}`,background:"#fff",cursor:"pointer",textAlign:"left",fontSize:13,color:P.blue,fontFamily:F}} onMouseEnter={e=>e.currentTarget.style.background=P.blueBg} onMouseLeave={e=>e.currentTarget.style.background="#fff"}>都不是？新建联系人</button></div>}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap" style={{marginBottom:2}}><span style={{fontSize:15,fontWeight:600,color:P.ink,fontFamily:S}}>{`说话人 ${card.speakerNum}`}</span>{!confirmed&&<Pill bg={P.mBg} fg={P.mAccent}>待确认</Pill>}{confirmed&&m&&<Pill bg={P.purpleBg} fg={P.purple}>已关联历史</Pill>}{confirmed&&createdNew&&<Pill bg={P.blueBg} fg={P.blue}>新建联系人</Pill>}<button onClick={()=>setShowDrop(!showDrop)} style={{fontSize:11,color:P.blue,background:"none",border:"none",cursor:"pointer",fontFamily:F}}>{confirmed?"重新确认":"去匹配联系人"}</button></div>
+          <div className="flex items-center gap-2 flex-wrap" style={{marginBottom:2,paddingRight:96}}><span style={{fontSize:15,fontWeight:600,color:P.ink,fontFamily:S}}>{`说话人 ${card.speakerNum}`}</span>{!confirmed&&<Pill bg={P.mBg} fg={P.mAccent}>待确认</Pill>}{confirmed&&m&&<Pill bg={P.purpleBg} fg={P.purple}>已关联历史</Pill>}{confirmed&&createdNew&&<Pill bg={P.blueBg} fg={P.blue}>新建联系人</Pill>}<button onClick={()=>setShowDrop(!showDrop)} style={{fontSize:11,color:P.blue,background:"none",border:"none",cursor:"pointer",fontFamily:F}}>{confirmed?"重新确认":"去匹配联系人"}</button></div>
           {binding&&<div style={{fontSize:13,color:P.inkMuted,marginBottom:6,fontFamily:F}}>当前确认：{binding}</div>}
           {createdNew&&newProfile&&<div style={{fontSize:12,color:P.inkFaint,marginBottom:6,fontFamily:F}}>关系：{newProfile.relation}{newProfile.note?` · ${newProfile.note}`:""}</div>}
           {card.aiGuess&&!confirmed&&<div style={{fontSize:12,color:P.inkFaint,marginBottom:6}}>AI 猜测这位可能是「{card.aiGuess}」<button onClick={handleConfirmGuess} style={{color:P.green,background:"none",border:"none",cursor:"pointer",fontSize:12,fontWeight:500,marginLeft:6}}>✓ 先按这个确认</button></div>}
-          <p style={{fontSize:14,color:P.inkSoft,lineHeight:1.65,fontFamily:F}}>{card.signal}</p>
         </div>
       </div>
       <div style={{marginTop:12,padding:"12px 14px",borderRadius:12,background:P.warm,border:`1px solid ${P.borderLight}`}}>
