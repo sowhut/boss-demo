@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.DS_Store
+
+# Local tool state
+.paperclip/
+
+# Generated runtime data
+data/run-logs/
