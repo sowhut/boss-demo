@@ -5,6 +5,15 @@ import Demo03 from '../03-会议分析Thread.jsx';
 import Demo04 from '../04-汇报解读Thread.jsx';
 import Demo05 from '../05-文章提炼Thread.jsx';
 import Demo06 from '../06-记忆系统.jsx';
+import Demo07 from '../07-人脉网络Vision.jsx';
+
+function Demo06People() {
+  return <Demo06 initialSection="people" />;
+}
+
+function Demo06Matters() {
+  return <Demo06 initialSection="matters" />;
+}
 
 const EDITORIAL_STYLE = `
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap');
@@ -90,7 +99,9 @@ const demos = [
   { key: '03', title: '会议分析Thread', Component: Demo03 },
   { key: '04', title: '汇报解读Thread', Component: Demo04 },
   { key: '05', title: '文章提炼Thread', Component: Demo05 },
-  { key: '06', title: '记忆系统', Component: Demo06 },
+  { key: '06', title: '人脉记忆', Component: Demo06People },
+  { key: '07', title: '事项记忆', Component: Demo06Matters },
+  { key: '08', title: '人脉圈', Component: Demo07 },
 ];
 
 export default function App() {
@@ -103,6 +114,18 @@ export default function App() {
     document.head.appendChild(style);
   }, []);
 
+  useEffect(() => {
+    const handleDemoNavigate = (event) => {
+      const nextKey = event?.detail?.key;
+      if (demos.some((item) => item.key === nextKey)) {
+        setActiveKey(nextKey);
+      }
+    };
+
+    window.addEventListener('open-demo', handleDemoNavigate);
+    return () => window.removeEventListener('open-demo', handleDemoNavigate);
+  }, []);
+
   const ActiveComponent = useMemo(() => {
     return demos.find((item) => item.key === activeKey)?.Component ?? demos[0].Component;
   }, [activeKey]);
@@ -110,17 +133,17 @@ export default function App() {
   return (
     <div className="h-screen w-screen overflow-hidden" style={{ background: '#fdfcfa' }}>
       <div
-        className="fixed top-3 left-1/2 -translate-x-1/2 z-50 backdrop-blur border rounded-xl px-2 py-2 flex flex-wrap items-center gap-2 max-w-[95vw]"
-        style={{ background: 'rgba(255, 253, 249, 0.92)', borderColor: '#e8e4de' }}
+        className="fixed top-3 left-1/2 -translate-x-1/2 z-50 flex max-w-[95vw] flex-wrap items-center gap-2 rounded-[18px] border px-3 py-3 backdrop-blur-md"
+        style={{ background: 'rgba(255, 252, 247, 0.94)', borderColor: '#e8e4de', boxShadow: '0 14px 34px rgba(60, 42, 28, 0.08)' }}
       >
         {demos.map((item) => (
           <button
             key={item.key}
             onClick={() => setActiveKey(item.key)}
-            className={`px-3 py-1.5 text-xs rounded-lg transition-colors ${
+            className={`rounded-[12px] border px-3 py-1.5 text-xs font-medium transition-colors ${
               item.key === activeKey ? 'bg-blue-600 text-white' : 'text-slate-600'
             }`}
-            style={item.key === activeKey ? undefined : { background: '#f7f5f2', border: '1px solid #e8e4de' }}
+            style={item.key === activeKey ? { borderColor: '#c8956c' } : { background: '#f7f5f2', borderColor: '#e8e4de' }}
           >
             {item.key}. {item.title}
           </button>

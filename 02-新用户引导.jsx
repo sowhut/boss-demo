@@ -327,7 +327,7 @@ export default function OnboardingDemo() {
         <div className="shrink-0 flex items-center justify-between"
           style={{ padding: "8px 20px", borderBottom: `1px solid ${PALETTE.border}`, background: "#fff" }}>
           <div className="flex items-center gap-3">
-            <h1 style={{ fontSize: 13, fontWeight: 700, color: PALETTE.ink, fontFamily: FONT_SERIF }}>Demo 2/6</h1>
+            <h1 style={{ fontSize: 13, fontWeight: 700, color: PALETTE.ink, fontFamily: FONT_SERIF }}>Demo 2/8</h1>
             <span style={{ fontSize: 12, color: PALETTE.inkMuted }}>新用户引导</span>
           </div>
           <label className="flex items-center gap-2" style={{ fontSize: 12, color: PALETTE.inkMuted, cursor: "pointer" }}>

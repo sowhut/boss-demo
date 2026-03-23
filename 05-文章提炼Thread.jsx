@@ -865,7 +865,7 @@ export default function ArticleThreadDemo() {
 
         {/* Top Bar */}
         <div className="flex items-center justify-between shrink-0" style={{ background: "#161616", borderBottom: "1px solid #2a2a2a", padding: "7px 16px" }}>
-          <span style={{ color: "#ccc", fontWeight: 700, fontSize: 13 }}>Demo 5/6 · 文章提炼 Thread — 完整交互流程 v2</span>
+          <span style={{ color: "#ccc", fontWeight: 700, fontSize: 13 }}>Demo 5/8 · 文章提炼 Thread — 完整交互流程 v2</span>
           <div className="flex items-center gap-4">
             <label className="flex items-center gap-2" style={{ fontSize: 12, color: "#777" }}>
               <input type="checkbox" checked={simError} onChange={e => setSimError(e.target.checked)} style={{ accentColor: P.red }} /> 模拟抓取失败
@@ -885,10 +885,28 @@ export default function ArticleThreadDemo() {
               <div className="flex flex-col gap-0.5">
                 {[
                   { key: "chat", icon: "💬", label: "对话" },
-                  { key: "memory", icon: "🧠", label: "记忆", badge: "内测" },
-                  { key: "network", icon: "🔗", label: "人脉圈", badge: "🔒" },
+                  { key: "people", icon: "👥", label: "人脉", badge: "内测" },
+                  { key: "matters", icon: "🗂", label: "事项", badge: "内测" },
+                  { key: "network", icon: "🔗", label: "人脉圈", badge: "Vision" },
                 ].map(item => (
-                  <button key={item.key} onClick={() => { if (item.key === "chat") setShowThread(false); }}
+                  <button key={item.key} onClick={() => {
+                    if (item.key === "chat") {
+                      window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "01" } }));
+                      return;
+                    }
+                    if (item.key === "people") {
+                      window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "06" } }));
+                      return;
+                    }
+                    if (item.key === "matters") {
+                      window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "07" } }));
+                      return;
+                    }
+                    if (item.key === "network") {
+                      window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "08" } }));
+                      return;
+                    }
+                  }}
                     className="flex items-center gap-2.5 transition-all duration-150"
                     style={{
                       width: "100%", padding: "8px 12px", borderRadius: 10, fontSize: 13,

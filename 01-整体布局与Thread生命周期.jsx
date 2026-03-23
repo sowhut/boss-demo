@@ -285,7 +285,7 @@ export default function LayoutDemo() {
         {/* ── Top Bar ── */}
         <div className="flex items-center justify-between shrink-0" style={{ background: "#161616", borderBottom: "1px solid #2a2a2a", padding: "7px 16px" }}>
           <h1 style={{ color: "#ccc", fontWeight: 700, fontSize: 13, letterSpacing: "-0.01em", fontFamily: "'Noto Sans SC', sans-serif" }}>
-            Demo 1/6 · 整体布局与Thread生命周期
+            Demo 1/8 · 整体布局与Thread生命周期
           </h1>
           <div className="flex items-center gap-4">
             <div className="flex" style={{ background: "#2a2a2a", borderRadius: 8, padding: 2 }}>
@@ -315,10 +315,29 @@ export default function LayoutDemo() {
               <div className="flex flex-col gap-0.5">
                 {[
                   { key: "chat", icon: "💬", label: "对话", badge: null },
-                  { key: "memory", icon: "🧠", label: "记忆", badge: "内测" },
-                  { key: "network", icon: "🔗", label: "人脉圈", badge: "🔒" },
+                  { key: "people", icon: "👥", label: "人脉", badge: "内测" },
+                  { key: "matters", icon: "🗂", label: "事项", badge: "内测" },
+                  { key: "network", icon: "🔗", label: "人脉圈", badge: "Vision" },
                 ].map(item => (
-                  <button key={item.key} onClick={() => { setActiveNav(item.key); setActiveThread(null); }}
+                  <button key={item.key} onClick={() => {
+                    if (item.key === "chat") {
+                      window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "01" } }));
+                    }
+                    if (item.key === "people") {
+                      window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "06" } }));
+                      return;
+                    }
+                    if (item.key === "matters") {
+                      window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "07" } }));
+                      return;
+                    }
+                    if (item.key === "network") {
+                      window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "08" } }));
+                      return;
+                    }
+                    setActiveNav(item.key);
+                    setActiveThread(null);
+                  }}
                     className="flex items-center gap-2.5 transition-all duration-150"
                     style={{
                       width: "100%", padding: "8px 12px", borderRadius: 10, fontSize: 13, fontWeight: 500,

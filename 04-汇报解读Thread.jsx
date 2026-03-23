@@ -1356,7 +1356,7 @@ export default function ReportThreadDemo() {
       <style>{STYLE}</style>
       <div className="h-screen flex flex-col" style={{ background:P.sb, fontFamily:F }}>
         <div className="flex items-center justify-between shrink-0" style={{ background:"#161616", borderBottom:"1px solid #2a2a2a", padding:"7px 16px" }}>
-          <span style={{ color:"#ccc", fontWeight:700, fontSize:13 }}>Demo 4/6 · 汇报解读 Thread — 回复准备流 v3</span>
+          <span style={{ color:"#ccc", fontWeight:700, fontSize:13 }}>Demo 4/8 · 汇报解读 Thread — 回复准备流 v3</span>
           <label className="flex items-center gap-2" style={{ fontSize:12, color:"#777" }}>
             <input type="checkbox" checked={showAnn} onChange={(e) => setShowAnn(e.target.checked)} style={{ accentColor:P.accent }} /> 设计批注
           </label>
@@ -1366,11 +1366,26 @@ export default function ReportThreadDemo() {
           <div className="flex flex-col shrink-0" style={{ width:240, background:P.sb, borderRight:"1px solid #2a2a2a" }}>
             <div style={{ padding:12, borderBottom:"1px solid #2a2a2a" }}>
               <div className="flex flex-col gap-0.5">
-                {[{ key:"chat", icon:"💬", label:"对话" }, { key:"memory", icon:"🧠", label:"记忆", badge:"内测" }, { key:"network", icon:"🔗", label:"人脉圈", badge:"🔒" }].map((item) => (
+                {[{ key:"chat", icon:"💬", label:"对话" }, { key:"people", icon:"👥", label:"人脉", badge:"内测" }, { key:"matters", icon:"🗂", label:"事项", badge:"内测" }, { key:"network", icon:"🔗", label:"人脉圈", badge:"Vision" }].map((item) => (
                   <button
                     key={item.key}
                     onClick={() => {
-                      if (item.key === "chat") setShowThread(false);
+                      if (item.key === "chat") {
+                        window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "01" } }));
+                        return;
+                      }
+                      if (item.key === "people") {
+                        window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "06" } }));
+                        return;
+                      }
+                      if (item.key === "matters") {
+                        window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "07" } }));
+                        return;
+                      }
+                      if (item.key === "network") {
+                        window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "08" } }));
+                        return;
+                      }
                     }}
                     className="flex items-center gap-2.5 transition-all duration-150"
                     style={{

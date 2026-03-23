@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const STYLE = `
 @keyframes memoryFloat {
@@ -760,6 +760,28 @@ function cn(...values) {
   return values.filter(Boolean).join(" ");
 }
 
+function useViewportSize() {
+  const [viewport, setViewport] = useState(() => ({
+    width: typeof window === "undefined" ? 1440 : window.innerWidth,
+    height: typeof window === "undefined" ? 960 : window.innerHeight,
+  }));
+
+  useEffect(() => {
+    const updateViewport = () => setViewport({ width: window.innerWidth, height: window.innerHeight });
+    updateViewport();
+    window.addEventListener("resize", updateViewport);
+    return () => window.removeEventListener("resize", updateViewport);
+  }, []);
+
+  return viewport;
+}
+
+function getStageScale({ viewportWidth, viewportHeight, baseWidth, baseHeight, widthOffset, heightOffset, minScale }) {
+  const widthScale = (viewportWidth - widthOffset) / baseWidth;
+  const heightScale = (viewportHeight - heightOffset) / baseHeight;
+  return Math.max(minScale, Math.min(1, widthScale, heightScale));
+}
+
 function AppMark() {
   return (
     <div className="flex items-center gap-3">
@@ -909,6 +931,7 @@ function PersonNodeCard({ person, active, onClick }) {
 }
 
 function MemoryNetwork({ people, onSelectPerson }) {
+  const viewport = useViewportSize();
   const stats = useMemo(() => {
     const focusCount = people.filter((item) => item.status === "focus").length;
     const patternCount = people.reduce((count, item) => count + item.patterns.length, 0);
@@ -919,6 +942,17 @@ function MemoryNetwork({ people, onSelectPerson }) {
       patterns: patternCount,
     };
   }, [people]);
+  const stageWidth = 1060;
+  const stageHeight = 620;
+  const stageScale = getStageScale({
+    viewportWidth: viewport.width,
+    viewportHeight: viewport.height,
+    baseWidth: stageWidth,
+    baseHeight: stageHeight,
+    widthOffset: 420,
+    heightOffset: 300,
+    minScale: 0.7,
+  });
 
   return (
     <div className="relative overflow-hidden rounded-[36px] border border-[#ebe4db] bg-[radial-gradient(circle_at_top,#fffdf9_0%,#fbf8f3_38%,#f6f1e9_100%)] px-6 py-6 shadow-[0_32px_80px_rgba(31,41,55,0.08)]">
@@ -928,51 +962,61 @@ function MemoryNetwork({ people, onSelectPerson }) {
         <div className="absolute bottom-[14%] left-[42%] h-36 w-36 rounded-full bg-[#f2ebff] blur-3xl" />
       </div>
 
-      <div className="relative h-[620px] overflow-hidden rounded-[28px]">
-        <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-          {people.map((person) => {
-            const dx = person.network.x - 50;
-            const dy = person.network.y - 50;
-            const controlX = 50 + dx * 0.45;
-            const controlY = 50 + dy * 0.08;
-            return (
-              <path
-                key={person.id}
-                className="memory-beam"
-                d={`M 50 50 Q ${controlX} ${controlY} ${person.network.x} ${person.network.y}`}
-                fill="none"
-                stroke={person.network.accent}
-                strokeWidth="0.24"
-                strokeLinecap="round"
-              />
-            );
-          })}
-        </svg>
-
+      <div className="relative overflow-hidden rounded-[28px]" style={{ height: `${stageHeight * stageScale}px` }}>
         <div
-          className="absolute left-1/2 top-1/2 w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-[30px] border border-[#d9e4f3] bg-white/86 px-6 py-6 text-center shadow-[0_24px_64px_rgba(76,100,147,0.16)] backdrop-blur-md"
+          className="absolute left-1/2 top-0"
+          style={{
+            width: stageWidth,
+            height: stageHeight,
+            transform: `translateX(-50%) scale(${stageScale})`,
+            transformOrigin: "top center",
+          }}
         >
-          <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400">AI People Memory</div>
-          <div className="mt-2.5 text-[34px] font-semibold tracking-tight text-slate-950">人脉</div>
-          <div className="mt-2 text-[13px] leading-6 text-slate-500">AI 合伙人替你把会议、汇报、对话里的零散信号，持续整理成可行动的人脉判断。</div>
-          <div className="mt-5 grid grid-cols-4 gap-2.5">
-            {[
-              { label:"总人数", value:stats.total },
-              { label:"需关注", value:stats.focus },
-              { label:"信号数", value:stats.signals },
-              { label:"模式数", value:stats.patterns },
-            ].map((item) => (
-              <div key={item.label}>
-                <div className="text-[24px] font-semibold tracking-tight text-slate-900">{item.value}</div>
-                <div className="mt-1 text-xs text-slate-400">{item.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+          <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            {people.map((person) => {
+              const dx = person.network.x - 50;
+              const dy = person.network.y - 50;
+              const controlX = 50 + dx * 0.45;
+              const controlY = 50 + dy * 0.08;
+              return (
+                <path
+                  key={person.id}
+                  className="memory-beam"
+                  d={`M 50 50 Q ${controlX} ${controlY} ${person.network.x} ${person.network.y}`}
+                  fill="none"
+                  stroke={person.network.accent}
+                  strokeWidth="0.24"
+                  strokeLinecap="round"
+                />
+              );
+            })}
+          </svg>
 
-        {people.map((person) => (
-          <PersonNodeCard key={person.id} person={person} onClick={() => onSelectPerson(person.id)} />
-        ))}
+          <div
+            className="absolute left-1/2 top-1/2 w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-[30px] border border-[#d9e4f3] bg-white/86 px-6 py-6 text-center shadow-[0_24px_64px_rgba(76,100,147,0.16)] backdrop-blur-md"
+          >
+            <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400">AI People Memory</div>
+            <div className="mt-2.5 text-[34px] font-semibold tracking-tight text-slate-950">人脉</div>
+            <div className="mt-2 text-[13px] leading-6 text-slate-500">AI 合伙人替你把会议、汇报、对话里的零散信号，持续整理成可行动的人脉判断。</div>
+            <div className="mt-5 grid grid-cols-4 gap-2.5">
+              {[
+                { label:"总人数", value:stats.total },
+                { label:"需关注", value:stats.focus },
+                { label:"信号数", value:stats.signals },
+                { label:"模式数", value:stats.patterns },
+              ].map((item) => (
+                <div key={item.label}>
+                  <div className="text-[24px] font-semibold tracking-tight text-slate-900">{item.value}</div>
+                  <div className="mt-1 text-xs text-slate-400">{item.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {people.map((person) => (
+            <PersonNodeCard key={person.id} person={person} onClick={() => onSelectPerson(person.id)} />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -1064,7 +1108,7 @@ function PersonDetail({ personId, onBack }) {
         返回人脉总览
       </button>
 
-      <div className="grid gap-5 xl:grid-cols-[1.3fr_0.86fr]">
+      <div className="grid gap-5 min-[1540px]:grid-cols-[1.3fr_0.86fr]">
         <div className="rounded-[30px] border border-[#ebe4db] bg-white/86 p-6 shadow-[0_24px_58px_rgba(31,41,55,0.08)]">
           <div className="flex flex-wrap items-start gap-5">
             <div
@@ -1127,7 +1171,7 @@ function PersonDetail({ personId, onBack }) {
         </div>
       </div>
 
-      <div className="grid gap-5 xl:grid-cols-[1.02fr_0.98fr]">
+      <div className="grid gap-5 min-[1540px]:grid-cols-[1.02fr_0.98fr]">
         <div className="space-y-6">
           <div className="rounded-[28px] border border-[#ebe4db] bg-white/88 p-5 shadow-[0_18px_46px_rgba(31,41,55,0.06)]">
             <div className="flex items-center justify-between gap-4">
@@ -1283,10 +1327,22 @@ function AssumptionSelectorCard({ assumption, active, onClick }) {
 }
 
 function AssumptionOrbitView({ selectedAssumptionId, onSelectAssumption, onOpenDetail }) {
+  const viewport = useViewportSize();
   const orderedAssumptions = useMemo(() => getOrderedAssumptions(), []);
   const selectedAssumption = orderedAssumptions.find((item) => item.assumption_id === selectedAssumptionId) ?? orderedAssumptions[0];
   const activeCount = ASSUMPTIONS.filter((item) => item.status === "active").length;
   const totalEvidenceCount = ASSUMPTIONS.reduce((count, item) => count + item.evidence_chain.length, 0);
+  const stageWidth = 960;
+  const stageHeight = 640;
+  const stageScale = getStageScale({
+    viewportWidth: viewport.width,
+    viewportHeight: viewport.height,
+    baseWidth: stageWidth,
+    baseHeight: stageHeight,
+    widthOffset: 640,
+    heightOffset: 320,
+    minScale: 0.64,
+  });
   const orbitPositions = [
     { left: 18, top: 24, width: 196 },
     { left: 82, top: 22, width: 196 },
@@ -1297,7 +1353,7 @@ function AssumptionOrbitView({ selectedAssumptionId, onSelectAssumption, onOpenD
   ];
 
   return (
-    <div className="grid gap-5 xl:grid-cols-[320px_minmax(0,1fr)]">
+    <div className="grid gap-5 min-[1120px]:grid-cols-[260px_minmax(0,1fr)] min-[1440px]:grid-cols-[300px_minmax(0,1fr)]">
       <div className="space-y-4">
         <div className="rounded-[30px] border border-[#ebe4db] bg-[radial-gradient(circle_at_top_left,rgba(118,214,176,0.18),transparent_42%),rgba(255,255,255,0.92)] p-5 shadow-[0_20px_52px_rgba(31,41,55,0.06)]">
           <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#29a36a]">Assumption Memory</div>
@@ -1324,79 +1380,89 @@ function AssumptionOrbitView({ selectedAssumptionId, onSelectAssumption, onOpenD
         </div>
       </div>
 
-      <div className="relative overflow-hidden rounded-[36px] border border-[#ebe4db] bg-[radial-gradient(circle_at_top,#fffdf9_0%,#fbf8f3_38%,#f6f1e9_100%)] px-6 py-6 shadow-[0_32px_80px_rgba(31,41,55,0.08)]">
+      <div className="relative overflow-hidden rounded-[36px] border border-[#ebe4db] bg-[radial-gradient(circle_at_top,#fffdf9_0%,#fbf8f3_38%,#f6f1e9_100%)] px-4 py-4 shadow-[0_32px_80px_rgba(31,41,55,0.08)] sm:px-6 sm:py-6">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute left-[18%] top-[16%] h-40 w-40 rounded-full bg-[#f2ebe3] blur-3xl" />
           <div className="absolute right-[12%] top-[24%] h-44 w-44 rounded-full bg-[#eff4f2] blur-3xl" />
           <div className="absolute bottom-[14%] left-[38%] h-36 w-36 rounded-full bg-[#f2ebff] blur-3xl" />
         </div>
 
-        <div className="relative h-[640px] overflow-hidden rounded-[28px]">
-          <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <div className="relative overflow-hidden rounded-[28px]" style={{ height: `${stageHeight * stageScale}px` }}>
+          <div
+            className="absolute left-1/2 top-0"
+            style={{
+              width: stageWidth,
+              height: stageHeight,
+              transform: `translateX(-50%) scale(${stageScale})`,
+              transformOrigin: "top center",
+            }}
+          >
+            <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+              {selectedAssumption.evidence_chain.map((entry, index) => {
+                const position = orbitPositions[index % orbitPositions.length];
+                const dx = position.left - 50;
+                const dy = position.top - 50;
+                const controlX = 50 + dx * 0.42;
+                const controlY = 50 + dy * 0.1;
+                return (
+                  <path
+                    key={`${entry.scene_id}-${index}`}
+                    className="memory-beam"
+                    d={`M 50 50 Q ${controlX} ${controlY} ${position.left} ${position.top}`}
+                    fill="none"
+                    stroke={ASSUMPTION_STYLES[selectedAssumption.status].dot}
+                    strokeWidth="0.24"
+                    strokeLinecap="round"
+                  />
+                );
+              })}
+            </svg>
+
+            <div className="absolute left-1/2 top-1/2 w-[340px] -translate-x-1/2 -translate-y-1/2 rounded-[32px] border border-[#d9e4f3] bg-white/88 px-6 py-6 text-center shadow-[0_24px_64px_rgba(76,100,147,0.16)] backdrop-blur-md">
+              <div className="flex justify-center">
+                <span className={cn("rounded-full border px-3 py-1 text-xs", ASSUMPTION_STYLES[selectedAssumption.status].chip)}>
+                  {ASSUMPTION_STYLES[selectedAssumption.status].label}
+                </span>
+              </div>
+              <div className="mt-4 text-[29px] font-semibold tracking-tight text-slate-950">{selectedAssumption.content}</div>
+              <div className="mt-3 text-[14px] leading-7 text-slate-600">{selectedAssumption.origin_context}</div>
+              <div className="mt-5 flex flex-wrap justify-center gap-2">
+                <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">{selectedAssumption.inferred ? "AI 推断" : "老板明确"}</span>
+                <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">{selectedAssumption.related_people.length} 位相关人</span>
+                <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">{selectedAssumption.evidence_chain.length} 条证据</span>
+              </div>
+              <button
+                onClick={() => onOpenDetail(selectedAssumption.assumption_id)}
+                className="mt-6 rounded-full bg-[#c8956c] px-5 py-2.5 text-sm font-medium text-white transition hover:brightness-[0.98]"
+              >
+                查看完整证据链
+              </button>
+            </div>
+
             {selectedAssumption.evidence_chain.map((entry, index) => {
               const position = orbitPositions[index % orbitPositions.length];
-              const dx = position.left - 50;
-              const dy = position.top - 50;
-              const controlX = 50 + dx * 0.42;
-              const controlY = 50 + dy * 0.1;
               return (
-                <path
+                <button
                   key={`${entry.scene_id}-${index}`}
-                  className="memory-beam"
-                  d={`M 50 50 Q ${controlX} ${controlY} ${position.left} ${position.top}`}
-                  fill="none"
-                  stroke={ASSUMPTION_STYLES[selectedAssumption.status].dot}
-                  strokeWidth="0.24"
-                  strokeLinecap="round"
-                />
+                  onClick={() => onOpenDetail(selectedAssumption.assumption_id)}
+                  className="memory-float absolute rounded-[24px] border border-white/80 bg-white/86 p-4 text-left shadow-[0_18px_44px_rgba(43,57,71,0.08)] backdrop-blur-sm transition hover:-translate-y-0.5 hover:shadow-[0_22px_48px_rgba(43,57,71,0.1)]"
+                  style={{
+                    left: `${position.left}%`,
+                    top: `${position.top}%`,
+                    width: position.width,
+                    transform: "translate(-50%, -50%)",
+                  }}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="text-[12px] uppercase tracking-[0.18em] text-slate-400">{formatDateTime(entry.timestamp)}</div>
+                    <span className="rounded-full bg-[#f4f6f8] px-2.5 py-1 text-[11px] text-slate-500">{getSceneTypeLabel(entry.scene_type)}</span>
+                  </div>
+                  <div className="mt-3 line-clamp-3 text-[14px] leading-6 text-slate-700">{entry.summary}</div>
+                  <div className="mt-3 text-[12px] text-slate-400">{entry.source_call} · {entry.scene_id}</div>
+                </button>
               );
             })}
-          </svg>
-
-          <div className="absolute left-1/2 top-1/2 w-[340px] -translate-x-1/2 -translate-y-1/2 rounded-[32px] border border-[#d9e4f3] bg-white/88 px-6 py-6 text-center shadow-[0_24px_64px_rgba(76,100,147,0.16)] backdrop-blur-md">
-            <div className="flex justify-center">
-              <span className={cn("rounded-full border px-3 py-1 text-xs", ASSUMPTION_STYLES[selectedAssumption.status].chip)}>
-                {ASSUMPTION_STYLES[selectedAssumption.status].label}
-              </span>
-            </div>
-            <div className="mt-4 text-[29px] font-semibold tracking-tight text-slate-950">{selectedAssumption.content}</div>
-            <div className="mt-3 text-[14px] leading-7 text-slate-600">{selectedAssumption.origin_context}</div>
-            <div className="mt-5 flex flex-wrap justify-center gap-2">
-              <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">{selectedAssumption.inferred ? "AI 推断" : "老板明确"}</span>
-              <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">{selectedAssumption.related_people.length} 位相关人</span>
-              <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">{selectedAssumption.evidence_chain.length} 条证据</span>
-            </div>
-            <button
-              onClick={() => onOpenDetail(selectedAssumption.assumption_id)}
-              className="mt-6 rounded-full bg-[#c8956c] px-5 py-2.5 text-sm font-medium text-white transition hover:brightness-[0.98]"
-            >
-              查看完整证据链
-            </button>
           </div>
-
-          {selectedAssumption.evidence_chain.map((entry, index) => {
-            const position = orbitPositions[index % orbitPositions.length];
-            return (
-              <button
-                key={`${entry.scene_id}-${index}`}
-                onClick={() => onOpenDetail(selectedAssumption.assumption_id)}
-                className="memory-float absolute rounded-[24px] border border-white/80 bg-white/86 p-4 text-left shadow-[0_18px_44px_rgba(43,57,71,0.08)] backdrop-blur-sm transition hover:-translate-y-0.5 hover:shadow-[0_22px_48px_rgba(43,57,71,0.1)]"
-                style={{
-                  left: `${position.left}%`,
-                  top: `${position.top}%`,
-                  width: position.width,
-                  transform: "translate(-50%, -50%)",
-                }}
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <div className="text-[12px] uppercase tracking-[0.18em] text-slate-400">{formatDateTime(entry.timestamp)}</div>
-                  <span className="rounded-full bg-[#f4f6f8] px-2.5 py-1 text-[11px] text-slate-500">{getSceneTypeLabel(entry.scene_type)}</span>
-                </div>
-                <div className="mt-3 line-clamp-3 text-[14px] leading-6 text-slate-700">{entry.summary}</div>
-                <div className="mt-3 text-[12px] text-slate-400">{entry.source_call} · {entry.scene_id}</div>
-              </button>
-            );
-          })}
         </div>
       </div>
     </div>
@@ -1481,7 +1547,7 @@ function AssumptionDetail({ assumptionId, onBack, onOpenPerson }) {
         返回前提总览
       </button>
 
-      <div className="grid gap-5 xl:grid-cols-[1.2fr_0.8fr]">
+      <div className="grid gap-5 min-[1540px]:grid-cols-[1.2fr_0.8fr]">
         <div className="rounded-[32px] border border-[#ebe4db] bg-white/88 p-6 shadow-[0_24px_58px_rgba(31,41,55,0.08)]">
           <div className="flex flex-wrap items-center gap-3">
             <span className={cn("rounded-full border px-3 py-1 text-xs", ASSUMPTION_STYLES[assumption.status].chip)}>
@@ -1598,8 +1664,8 @@ function MattersPage({ assumptionView, selectedAssumptionId, onChangeAssumptionV
     : <AssumptionsList onSelectAssumption={onSelectAssumption} onChangeAssumptionView={onChangeAssumptionView} />;
 }
 
-export default function MemoryDemo() {
-  const [section, setSection] = useState("people");
+export default function MemoryDemo({ initialSection = "people" }) {
+  const [section, setSection] = useState(initialSection);
   const [peopleView, setPeopleView] = useState("network");
   const [activeFilter, setActiveFilter] = useState("all");
   const [assumptionView, setAssumptionView] = useState("network");
@@ -1611,10 +1677,16 @@ export default function MemoryDemo() {
   const activeAssumptionCount = ASSUMPTIONS.filter((item) => item.status === "active").length;
   const activeSectionMeta = SECTION_ITEMS.find((item) => item.key === section);
 
+  useEffect(() => {
+    setSection(initialSection);
+    setSelectedPersonId(null);
+    setSelectedAssumptionId(null);
+  }, [initialSection]);
+
   return (
     <>
       <style>{STYLE}</style>
-      <div className="flex h-full min-h-0 bg-[#f7f3ec] pt-20 text-slate-900 box-border">
+      <div className="flex h-full min-h-0 bg-[#f7f3ec] text-slate-900 box-border">
         <div className="flex w-[232px] shrink-0 flex-col border-r border-[#e7dfd4] bg-[linear-gradient(180deg,#fbf8f3_0%,#f4efe8_100%)] px-4 py-4">
           <div className="flex items-center justify-between">
             <AppMark />
@@ -1624,7 +1696,10 @@ export default function MemoryDemo() {
           </div>
 
           <div className="mt-6 space-y-1.5">
-            <button className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-slate-400 transition hover:bg-white/60">
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "01" } }))}
+              className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-slate-400 transition hover:bg-white/60"
+            >
               <SidebarIcon><ChatGlyph /></SidebarIcon>
               <div>
                 <div className="text-[15px] font-medium">会话</div>
@@ -1654,6 +1729,17 @@ export default function MemoryDemo() {
                 </button>
               );
             })}
+
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "08" } }))}
+              className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-slate-400 transition hover:bg-white/60"
+            >
+              <SidebarIcon><span style={{ fontSize: 18 }}>🔗</span></SidebarIcon>
+              <div>
+                <div className="text-[15px] font-medium">人脉圈</div>
+                <div className="mt-0.5 text-xs text-slate-400">Vision</div>
+              </div>
+            </button>
           </div>
 
           <div className="mt-6 rounded-[24px] border border-[#e8e4de] bg-white/74 p-4 shadow-[0_14px_30px_rgba(31,41,55,0.04)]">
