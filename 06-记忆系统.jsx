@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 const STYLE = `
 @keyframes memoryFloat {
@@ -548,220 +548,162 @@ const PEOPLE = [
   },
 ];
 
-const MATTERS = [
+const ASSUMPTIONS = [
   {
-    id: "budget-q2",
-    title: "Q2渠道预算审批",
-    type: "decision",
+    assumption_id: "asmp-001",
+    content: "现有渠道可以复用到新业务",
+    origin_context: "3月1日Q1战略会，批准新业务投入时默认沿用原来的渠道打法。",
     status: "active",
-    createdAt: "03/22 09:20",
-    owner: "市场 / 渠道",
-    summary: "张总申请追加 15 万渠道预算。真正该盯的不是‘批不批’，而是当初支持这笔预算的前提现在还成不成立。",
-    aiView: "这件事现在不该直接进入预算讨论，优先级更高的是把口径、执行复盘和人力承接这三个前提说清楚。",
-    relatedPeople: ["zhang", "jiang", "wen", "qiao"],
-    assumptions: [
+    created_at: "2026-03-01T10:00:00Z",
+    source_scene_id: "C-20260301-001",
+    related_people: ["zhang", "jiang"],
+    inferred: false,
+    evidence_chain: [
       {
-        id: "budget-capacity",
-        text: "现有团队能承接这轮线下拓客",
-        status: "questioned",
-        whyItMatters: "如果人力根本接不住，即使预算批下去也会变成空转。",
-        latestEvidence: "汇报里没有明确的人力承接计划，乔旻和温棋都追问了资源边界。",
-        evidenceChain: [
-          {
-            timestamp: "03/22 09:20",
-            direction: "challenge",
-            source: "汇报",
-            confidence: "high",
-            content: "渠道方案里没有补充新增执行人力，只写了‘现有团队可覆盖’。",
-          },
-          {
-            timestamp: "03/21 16:40",
-            direction: "challenge",
-            source: "会议",
-            confidence: "medium",
-            content: "乔旻在会上明确追问：‘现有团队真能接住吗？’",
-          },
-        ],
+        timestamp: "2026-03-15T14:00:00Z",
+        scene_type: "report",
+        scene_id: "R-20260315-002",
+        source_call: "R01-b",
+        summary: "张总汇报里渠道转化率只有 12%，新老客群重合度明显低于预期。",
       },
       {
-        id: "budget-metric",
-        text: "当前数据口径足以支撑预算判断",
-        status: "questioned",
-        whyItMatters: "如果指标口径已经变了，预算结论就建立在不稳定的数字上。",
-        latestEvidence: "转化率被替换成活跃度，直接影响预算判断的可信度。",
-        evidenceChain: [
-          {
-            timestamp: "03/22 09:20",
-            direction: "challenge",
-            source: "汇报",
-            confidence: "high",
-            content: "核心结果从‘转化率’换成‘用户活跃度’，汇报里没有说明为什么换口径。",
-          },
-          {
-            timestamp: "03/15 11:10",
-            direction: "support",
-            source: "周报",
-            confidence: "medium",
-            content: "上周还在用统一的转化率口径跟踪渠道效率。",
-          },
-        ],
+        timestamp: "2026-03-20T09:00:00Z",
+        scene_type: "article",
+        scene_id: "A-20260320-001",
+        source_call: "A01",
+        summary: "行业报告提到同类渠道获客成本同比上涨 40%，复用效率正在变差。",
       },
       {
-        id: "budget-review",
-        text: "上次预算执行结果支持继续追加",
-        status: "unverified",
-        whyItMatters: "没有上次投入的复盘，就无法判断这次追加是在放大有效动作还是重复投入。",
-        latestEvidence: "12 万预算复盘尚未补齐，渠道评估报告也缺失。",
-        evidenceChain: [
-          {
-            timestamp: "03/22 09:20",
-            direction: "challenge",
-            source: "汇报",
-            confidence: "high",
-            content: "本次材料没有附上上次 12 万预算的执行复盘，也没有渠道评估报告。",
-          },
-        ],
-      },
-    ],
-    updates: [
-      {
-        id: "budget-update-1",
-        timestamp: "今天 09:20",
-        title: "汇报里第一次把预算问题重新推到桌面上",
-        subtitle: "汇报 · 市场 / 渠道",
-        summary: "张总想把决策推进到‘批不批预算’，但 AI 判断真正的问题仍然卡在前提没有补齐。",
-        tags: ["预算推进", "前提缺失"],
-      },
-      {
-        id: "budget-update-2",
-        timestamp: "昨天 16:40",
-        title: "乔旻追问人力承接，说明组织侧并不默认认同",
-        subtitle: "会议 · 管理例会",
-        summary: "这件事不只是市场线内部推进，管理层已经开始盯资源边界。",
-        tags: ["资源边界"],
+        timestamp: "2026-03-22T09:20:00Z",
+        scene_type: "report",
+        scene_id: "R-20260322-001",
+        source_call: "R01-b",
+        summary: "这次汇报把核心结果从转化率换成活跃度，侧面说明原渠道复用效果并不稳。",
       },
     ],
   },
   {
-    id: "member-tier",
-    title: "会员分层优化",
-    type: "discussion",
+    assumption_id: "asmp-002",
+    content: "现有团队能承接线下拓客带来的执行压力",
+    origin_context: "3月12日渠道预算讨论里，默认认为不用新增人手也能接住线下拓客节奏。",
     status: "active",
-    createdAt: "03/21 10:05",
-    owner: "产品 / 运营",
-    summary: "运营和产品都在推进会员分层，但真正该盯的是假设：用户是否会接受、运营是否接得住、版本边界是不是够清晰。",
-    aiView: "这件事现在不是高风险失控，更像在持续压边界。适合继续推进，但要盯住反馈闭环和高净值用户反应。",
-    relatedPeople: ["lin", "wen"],
-    assumptions: [
+    created_at: "2026-03-12T16:30:00Z",
+    source_scene_id: "C-20260312-002",
+    related_people: ["qiao", "wen", "zhang"],
+    inferred: true,
+    evidence_chain: [
       {
-        id: "member-feedback",
-        text: "当前分层策略不会引起高净值用户反弹",
-        status: "unverified",
-        whyItMatters: "一旦高净值用户反弹，整体收益可能被少数关键用户的流失抵消。",
-        latestEvidence: "目前只有小范围样本，没有看到稳定的高净值用户反馈。",
-        evidenceChain: [
-          {
-            timestamp: "03/21 10:05",
-            direction: "challenge",
-            source: "汇报",
-            confidence: "medium",
-            content: "运营反馈主要来自小样本测试，高净值用户的集中反馈还不够。",
-          },
-        ],
+        timestamp: "2026-03-16T11:00:00Z",
+        scene_type: "meeting",
+        scene_id: "C-20260316-001",
+        source_call: "C05",
+        summary: "乔旻在管理例会上追问现有团队是否真能接住新增执行量。",
       },
       {
-        id: "member-ops",
-        text: "运营侧能稳定承接后续回收动作",
-        status: "confirmed",
-        whyItMatters: "这决定了策略调整后，用户反馈能不能形成可持续的学习回路。",
-        latestEvidence: "林时雨已经连续两次提前给出回收节点和返工风险。",
-        evidenceChain: [
-          {
-            timestamp: "03/21 10:05",
-            direction: "support",
-            source: "汇报",
-            confidence: "high",
-            content: "林时雨把回收节点、返工风险和需要产品支持的边界写得很清楚。",
-          },
-          {
-            timestamp: "03/14 14:30",
-            direction: "support",
-            source: "会议",
-            confidence: "medium",
-            content: "上一次讨论里她也主动补了用户回收和风险前置安排。",
-          },
-          {
-            timestamp: "03/08 11:20",
-            direction: "support",
-            source: "周报",
-            confidence: "medium",
-            content: "连续第三次在周报中主动更新回收动作进展。",
-          },
-        ],
-      },
-    ],
-    updates: [
-      {
-        id: "member-update-1",
-        timestamp: "今天 10:05",
-        title: "联系人数据已经在 store 完成初始化",
-        subtitle: "产品 / 设计",
-        summary: "这类事项当前没有被否定，更多是在补证据、压边界、逐步变得更稳。",
-        tags: ["持续推进", "版本边界"],
+        timestamp: "2026-03-21T15:10:00Z",
+        scene_type: "meeting",
+        scene_id: "C-20260321-003",
+        source_call: "C05",
+        summary: "温棋继续追问版本边界和资源代价，说明团队承接能力还没有被说透。",
       },
       {
-        id: "member-update-2",
-        timestamp: "前天 15:10",
-        title: "温棋继续追问版本边界，说明方案还在收口期",
-        subtitle: "会议 · 产品评审",
-        summary: "产品侧关注的是边界是否清楚，而不是直接否定方向。",
-        tags: ["边界收口"],
+        timestamp: "2026-03-22T09:20:00Z",
+        scene_type: "report",
+        scene_id: "R-20260322-001",
+        source_call: "R01-b",
+        summary: "张总的新汇报没有补充新增人力安排，只写了现有团队可覆盖。",
       },
     ],
   },
   {
-    id: "market-shift",
-    title: "高端线渠道策略是否要调整",
-    type: "milestone",
-    status: "watch",
-    createdAt: "03/18 08:40",
-    owner: "外部变化",
-    summary: "外部市场信号正在改变高端线的投放前提。它不是老板主动发起的事项，但会持续影响你之前的判断。",
-    aiView: "这件事不是立刻拍板，而是提醒你：原来默认成立的市场前提正在变，要把它挂在后续相关决策上继续看。",
-    relatedPeople: ["jiang", "tang"],
-    assumptions: [
+    assumption_id: "asmp-003",
+    content: "运营侧能稳定承接会员分层后的回收动作",
+    origin_context: "3月8日产品评审会上决定先推进会员分层时，默认运营能持续吃下回收和反馈闭环。",
+    status: "confirmed",
+    created_at: "2026-03-08T11:20:00Z",
+    source_scene_id: "C-20260308-001",
+    related_people: ["lin", "wen"],
+    inferred: false,
+    evidence_chain: [
       {
-        id: "market-premium",
-        text: "高端线仍然适合用原来的投放节奏推进",
-        status: "questioned",
-        whyItMatters: "如果市场情绪已经变了，继续按原节奏投入可能会导致预算效率迅速下滑。",
-        latestEvidence: "外部文章和江岚的判断都在提示高端线的节奏要重估。",
-        evidenceChain: [
-          {
-            timestamp: "03/18 08:40",
-            direction: "challenge",
-            source: "文章",
-            confidence: "medium",
-            content: "文章提炼指出消费趋势变化可能让高端线投放效率下降。",
-          },
-          {
-            timestamp: "03/18 18:10",
-            direction: "challenge",
-            source: "会议",
-            confidence: "medium",
-            content: "江岚强调如果节奏被打乱，短期效率数字好看也不值。",
-          },
-        ],
+        timestamp: "2026-03-08T11:20:00Z",
+        scene_type: "meeting",
+        scene_id: "C-20260308-001",
+        source_call: "C05",
+        summary: "林时雨在会上主动给出回收节点和返工风险，说明运营准备度较高。",
+      },
+      {
+        timestamp: "2026-03-14T14:30:00Z",
+        scene_type: "meeting",
+        scene_id: "C-20260314-002",
+        source_call: "C05",
+        summary: "二次讨论里她继续补充用户回收安排，没有出现执行侧退缩。",
+      },
+      {
+        timestamp: "2026-03-21T10:05:00Z",
+        scene_type: "report",
+        scene_id: "R-20260321-001",
+        source_call: "R01-b",
+        summary: "最新汇报把返工风险和需要产品配合的边界讲清楚，运营承接路径保持稳定。",
       },
     ],
-    updates: [
+  },
+  {
+    assumption_id: "asmp-004",
+    content: "高端线仍适合按原来的投放节奏推进",
+    origin_context: "2月下旬高端线预算会里，默认认为市场节奏没有变，仍可按原计划投放。",
+    status: "disproved",
+    created_at: "2026-02-25T18:00:00Z",
+    source_scene_id: "C-20260225-004",
+    related_people: ["jiang", "tang"],
+    inferred: false,
+    evidence_chain: [
       {
-        id: "market-update-1",
-        timestamp: "03/18 08:40",
-        title: "外部文章第一次把高端线渠道前提打松",
-        subtitle: "外部变化 · 行业信号",
-        summary: "这类节点不会直接告诉你该怎么做，但会提醒你过去的默认前提可能失效了。",
-        tags: ["外部变化"],
+        timestamp: "2026-03-18T08:40:00Z",
+        scene_type: "article",
+        scene_id: "A-20260318-001",
+        source_call: "A01",
+        summary: "文章提炼指出高端线客群消费意愿转弱，原投放节奏的效率假设被挑战。",
+      },
+      {
+        timestamp: "2026-03-18T18:10:00Z",
+        scene_type: "meeting",
+        scene_id: "C-20260318-002",
+        source_call: "C05",
+        summary: "江岚在会上明确提醒，如果节奏被打乱，短期数字再好看也不值。",
+      },
+      {
+        timestamp: "2026-03-22T20:30:00Z",
+        scene_type: "dialogue",
+        scene_id: "D-20260322-004",
+        source_call: "D06",
+        summary: "老板在对话里直接说高端线这套投放节奏已经不成立，要重新估。",
+      },
+    ],
+  },
+  {
+    assumption_id: "asmp-005",
+    content: "北区重点客户愿意接受先试点、后补 ROI 的推进方式",
+    origin_context: "1月下旬客户推进会上，默认认为客户愿意先给窗口，再慢慢补充 ROI 证明。",
+    status: "expired",
+    created_at: "2026-01-29T09:30:00Z",
+    source_scene_id: "C-20260129-001",
+    related_people: ["zhaolin", "shen"],
+    inferred: true,
+    evidence_chain: [
+      {
+        timestamp: "2026-02-02T15:00:00Z",
+        scene_type: "dialogue",
+        scene_id: "D-20260202-002",
+        source_call: "D06",
+        summary: "赵临当时表示可以先看试点，但仍反复强调后续必须补 ROI。",
+      },
+      {
+        timestamp: "2026-03-21T10:00:00Z",
+        scene_type: "dialogue",
+        scene_id: "D-20260321-003",
+        source_call: "D06",
+        summary: "最近沟通已经转向新的客户接口人，原来的推进方式不再是当前重点。",
       },
     ],
   },
@@ -792,12 +734,10 @@ const CONFIDENCE_STYLES = {
 };
 
 const ASSUMPTION_STYLES = {
-  unverified: { label: "未验证", chip: "bg-[#f4f4f4] text-[#7f8790] border-[#d9dee4]" },
-  supported: { label: "暂时成立", chip: "bg-[#eef5ff] text-[#5076b5] border-[#cad9f0]" },
-  questioned: { label: "有疑点", chip: "bg-[#fff0ef] text-[#c2645f] border-[#f0d2d0]" },
-  confirmed: { label: "基本坐实", chip: "bg-[#edf8f1] text-[#4d8b61] border-[#cfe8d8]" },
-  disproved: { label: "已证伪", chip: "bg-[#ffe6e3] text-[#b5534f] border-[#f0cbc8]" },
-  expired: { label: "已失效", chip: "bg-[#f4f4f4] text-[#7f8790] border-[#d9dee4]" },
+  active: { label: "追踪中", chip: "bg-[#eef5ff] text-[#5076b5] border-[#cad9f0]", dot: "#6f98e5" },
+  confirmed: { label: "已确认", chip: "bg-[#edf8f1] text-[#4d8b61] border-[#cfe8d8]", dot: "#6daf7f" },
+  disproved: { label: "已证伪", chip: "bg-[#fff0ef] text-[#c2645f] border-[#f0d2d0]", dot: "#d47a72" },
+  expired: { label: "已过期", chip: "bg-[#f4f4f4] text-[#7f8790] border-[#d9dee4]", dot: "#9da6b0" },
 };
 
 const PERSPECTIVE_LABELS = {
@@ -813,7 +753,7 @@ const CONTENT_TYPE_LABELS = {
 
 const SECTION_ITEMS = [
   { key: "people", label: "人脉", description: "AI 合伙人替你经营的人脉判断" },
-  { key: "matters", label: "事项", description: "AI 合伙人持续追踪的事项假设" },
+  { key: "matters", label: "事项", description: "AI 合伙人持续追踪的前提假设" },
 ];
 
 function cn(...values) {
@@ -1271,137 +1211,266 @@ function PersonDetail({ personId, onBack }) {
   );
 }
 
-const TIMELINE_BASE_DATE = new Date("2026-03-23T00:00:00+08:00");
-
-function getMatterTypeLabel(type) {
-  if (type === "decision") return "决策事项";
-  if (type === "discussion") return "讨论事项";
-  return "外部变化";
-}
-
-function getMatterStatusLabel(status) {
-  if (status === "active") return "进行中";
-  if (status === "resolved") return "已收口";
-  if (status === "abandoned") return "已搁置";
-  return "持续观察";
-}
-
-function getDirectionLabel(direction) {
-  return direction === "support" ? "支持前提" : "挑战前提";
-}
-
 function getTimestampValue(timestamp) {
-  const normalized = timestamp.replace(/\s+/g, " ").trim();
-  const base = new Date(TIMELINE_BASE_DATE);
-  const relativeMatch = normalized.match(/^(今天|昨天|前天)\s+(\d{2}):(\d{2})$/);
-
-  if (relativeMatch) {
-    const [, dayLabel, hour, minute] = relativeMatch;
-    const dayOffset = dayLabel === "今天" ? 0 : dayLabel === "昨天" ? 1 : 2;
-    base.setDate(base.getDate() - dayOffset);
-    base.setHours(Number(hour), Number(minute), 0, 0);
-    return base.getTime();
-  }
-
-  const absoluteMatch = normalized.match(/^(\d{2})\/(\d{2})\s+(\d{2}):(\d{2})$/);
-  if (absoluteMatch) {
-    const [, month, day, hour, minute] = absoluteMatch;
-    return new Date(2026, Number(month) - 1, Number(day), Number(hour), Number(minute), 0, 0).getTime();
-  }
-
-  return 0;
+  return Date.parse(timestamp) || 0;
 }
 
-function MatterTimelineOverview({ onSelectMatter }) {
-  const timelineItems = useMemo(() => {
-    return MATTERS.flatMap((matter) =>
-      matter.updates.map((update) => ({
-        ...update,
-        matterId: matter.id,
-        matterTitle: matter.title,
-        matterType: matter.type,
-        status: matter.status,
-        relatedPeople: matter.relatedPeople,
-        assumptions: matter.assumptions,
-      }))
-    ).sort((left, right) => getTimestampValue(right.timestamp) - getTimestampValue(left.timestamp));
-  }, []);
+function formatDateTime(timestamp) {
+  const match = timestamp.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+  if (!match) return timestamp;
+  return `${match[2]}/${match[3]} ${match[4]}:${match[5]}`;
+}
 
-  const activeMatters = MATTERS.filter((item) => item.status === "active").length;
-  const riskAssumptions = MATTERS.flatMap((item) => item.assumptions).filter((item) => item.status === "questioned" || item.status === "unverified").length;
+function formatDate(timestamp) {
+  const match = timestamp.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!match) return timestamp;
+  return `${match[1]}-${match[2]}-${match[3]}`;
+}
+
+function getSceneTypeLabel(sceneType) {
+  if (sceneType === "meeting") return "会议";
+  if (sceneType === "report") return "汇报";
+  if (sceneType === "article") return "文章";
+  return "对话";
+}
+
+function getLatestEvidence(assumption) {
+  return [...assumption.evidence_chain].sort((left, right) => getTimestampValue(right.timestamp) - getTimestampValue(left.timestamp))[0];
+}
+
+function getOrderedAssumptions() {
+  return [...ASSUMPTIONS].sort((left, right) => {
+    if (left.status === "active" && right.status !== "active") return -1;
+    if (left.status !== "active" && right.status === "active") return 1;
+    return getTimestampValue(getLatestEvidence(right)?.timestamp ?? right.created_at) - getTimestampValue(getLatestEvidence(left)?.timestamp ?? left.created_at);
+  });
+}
+
+function AssumptionSelectorCard({ assumption, active, onClick }) {
+  const latestEvidence = getLatestEvidence(assumption);
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        "w-full rounded-[24px] border p-4 text-left transition-all",
+        active
+          ? "border-[#d7c5b7] bg-white shadow-[0_18px_42px_rgba(31,41,55,0.08)]"
+          : "border-[#ebe4db] bg-white/72 hover:bg-white hover:shadow-[0_16px_36px_rgba(31,41,55,0.05)]"
+      )}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="line-clamp-2 text-[16px] font-semibold tracking-tight text-slate-900">{assumption.content}</div>
+          <div className="mt-2 line-clamp-2 text-[13px] leading-6 text-slate-500">{assumption.origin_context}</div>
+        </div>
+        <span className={cn("rounded-full border px-2.5 py-1 text-[11px]", ASSUMPTION_STYLES[assumption.status].chip)}>
+          {ASSUMPTION_STYLES[assumption.status].label}
+        </span>
+      </div>
+      <div className="mt-3 flex flex-wrap items-center gap-2 text-[12px] text-slate-400">
+        <span>{assumption.inferred ? "AI 推断" : "老板明确"}</span>
+        <span>·</span>
+        <span>{assumption.evidence_chain.length} 条证据</span>
+        {latestEvidence && (
+          <>
+            <span>·</span>
+            <span>{getSceneTypeLabel(latestEvidence.scene_type)}</span>
+          </>
+        )}
+      </div>
+    </button>
+  );
+}
+
+function AssumptionOrbitView({ selectedAssumptionId, onSelectAssumption, onOpenDetail }) {
+  const orderedAssumptions = useMemo(() => getOrderedAssumptions(), []);
+  const selectedAssumption = orderedAssumptions.find((item) => item.assumption_id === selectedAssumptionId) ?? orderedAssumptions[0];
+  const activeCount = ASSUMPTIONS.filter((item) => item.status === "active").length;
+  const totalEvidenceCount = ASSUMPTIONS.reduce((count, item) => count + item.evidence_chain.length, 0);
+  const orbitPositions = [
+    { left: 18, top: 24, width: 196 },
+    { left: 82, top: 22, width: 196 },
+    { left: 84, top: 70, width: 204 },
+    { left: 16, top: 72, width: 204 },
+    { left: 50, top: 12, width: 184 },
+    { left: 50, top: 86, width: 184 },
+  ];
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 xl:grid-cols-[1.18fr_0.82fr]">
-        <div className="rounded-[34px] border border-[#ebe4db] bg-[radial-gradient(circle_at_top_left,rgba(118,214,176,0.18),transparent_42%),radial-gradient(circle_at_top_right,rgba(164,211,255,0.18),transparent_36%),rgba(255,255,255,0.9)] p-6 shadow-[0_24px_58px_rgba(31,41,55,0.06)]">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#29a36a]">Timeline Preview</div>
-          <div className="mt-2 text-[31px] font-semibold tracking-tight text-slate-950">把“事”先放回时间顺序里</div>
-          <p className="mt-3 max-w-3xl text-[14px] leading-7 text-slate-600">
-            先按时间顺序看事情推进，再判断哪些前提应该变成提醒、承诺或者风险。AI 合伙人替你记住的不是项目进度，而是当初做判断时依赖的那些前提。
+    <div className="grid gap-5 xl:grid-cols-[320px_minmax(0,1fr)]">
+      <div className="space-y-4">
+        <div className="rounded-[30px] border border-[#ebe4db] bg-[radial-gradient(circle_at_top_left,rgba(118,214,176,0.18),transparent_42%),rgba(255,255,255,0.92)] p-5 shadow-[0_20px_52px_rgba(31,41,55,0.06)]">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#29a36a]">Assumption Memory</div>
+          <div className="mt-2 text-[28px] font-semibold tracking-tight text-slate-950">把前提放在视野中央</div>
+          <p className="mt-3 text-[14px] leading-7 text-slate-600">
+            AI 合伙人替你盯住的是这条前提本身，以及后来一条条落在它身上的证据。
           </p>
+          <div className="mt-5 grid grid-cols-3 gap-3">
+            <MetricCard label="总前提" value={`${ASSUMPTIONS.length}`} helper="已进入长期记忆" />
+            <MetricCard label="追踪中" value={`${activeCount}`} helper="仍在持续观察" />
+            <MetricCard label="证据数" value={`${totalEvidenceCount}`} helper="后来追加的记录" />
+          </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-3">
-          <MetricCard label="事项数" value={`${MATTERS.length}`} helper="还在持续盯着的判断" />
-          <MetricCard label="进行中" value={`${activeMatters}`} helper="还没有真正收口" />
-          <MetricCard label="待观察前提" value={`${riskAssumptions}`} helper="仍需要继续补证据" />
+        <div className="space-y-3">
+          {orderedAssumptions.map((assumption) => (
+            <AssumptionSelectorCard
+              key={assumption.assumption_id}
+              assumption={assumption}
+              active={selectedAssumption?.assumption_id === assumption.assumption_id}
+              onClick={() => onSelectAssumption(assumption.assumption_id)}
+            />
+          ))}
         </div>
       </div>
 
-      <div className="rounded-[34px] border border-[#ebe4db] bg-white/90 p-6 shadow-[0_24px_58px_rgba(31,41,55,0.06)]">
-        <div className="space-y-0">
-          {timelineItems.map((item, index) => (
-            <div key={item.id} className="grid gap-4 border-b border-[#f0ebe3] py-5 last:border-b-0 last:pb-0 md:grid-cols-[150px_36px_minmax(0,1fr)]">
-              <div className="pr-3 md:pt-1">
-                <div className="text-[24px] font-semibold tracking-tight text-slate-950">{item.timestamp.includes(" ") ? item.timestamp.split(" ")[0] : item.timestamp}</div>
-                <div className="mt-1 text-[15px] text-slate-400">{item.timestamp.includes(" ") ? item.timestamp.split(" ").slice(1).join(" ") : "持续观察"}</div>
-              </div>
+      <div className="relative overflow-hidden rounded-[36px] border border-[#ebe4db] bg-[radial-gradient(circle_at_top,#fffdf9_0%,#fbf8f3_38%,#f6f1e9_100%)] px-6 py-6 shadow-[0_32px_80px_rgba(31,41,55,0.08)]">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute left-[18%] top-[16%] h-40 w-40 rounded-full bg-[#f2ebe3] blur-3xl" />
+          <div className="absolute right-[12%] top-[24%] h-44 w-44 rounded-full bg-[#eff4f2] blur-3xl" />
+          <div className="absolute bottom-[14%] left-[38%] h-36 w-36 rounded-full bg-[#f2ebff] blur-3xl" />
+        </div>
 
-              <div className="relative flex justify-center">
-                <div className="relative mt-1 flex h-full w-6 justify-center">
-                  <div className="h-4 w-4 rounded-full border-[5px] border-[#d7f7e7] bg-[#24c56f]" />
-                  {index < timelineItems.length - 1 && <div className="absolute top-4 bottom-[-24px] w-[2px] bg-[linear-gradient(180deg,#33d17b_0%,#9fbcff_100%)]" />}
-                </div>
-              </div>
+        <div className="relative h-[640px] overflow-hidden rounded-[28px]">
+          <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            {selectedAssumption.evidence_chain.map((entry, index) => {
+              const position = orbitPositions[index % orbitPositions.length];
+              const dx = position.left - 50;
+              const dy = position.top - 50;
+              const controlX = 50 + dx * 0.42;
+              const controlY = 50 + dy * 0.1;
+              return (
+                <path
+                  key={`${entry.scene_id}-${index}`}
+                  className="memory-beam"
+                  d={`M 50 50 Q ${controlX} ${controlY} ${position.left} ${position.top}`}
+                  fill="none"
+                  stroke={ASSUMPTION_STYLES[selectedAssumption.status].dot}
+                  strokeWidth="0.24"
+                  strokeLinecap="round"
+                />
+              );
+            })}
+          </svg>
 
-              <button
-                onClick={() => onSelectMatter(item.matterId)}
-                className="rounded-[28px] border border-[#ebe4db] bg-[#fffdfa] p-5 text-left shadow-[0_16px_38px_rgba(31,41,55,0.04)] transition hover:-translate-y-[1px] hover:shadow-[0_18px_42px_rgba(31,41,55,0.06)]"
-              >
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-full bg-[#edf3ff] px-3 py-1 text-xs font-medium text-[#5470b8]">{getMatterTypeLabel(item.matterType)}</span>
-                    {item.tags.map((tag) => (
-                      <span key={tag} className="rounded-full bg-[#f3f7ff] px-3 py-1 text-xs text-[#6d88c3]">{tag}</span>
-                    ))}
-                  </div>
-                  <div className="text-sm text-slate-400">{item.subtitle}</div>
-                </div>
-                <div className="mt-4 text-[28px] font-semibold tracking-tight text-slate-950">{item.title}</div>
-                <p className="mt-3 text-[15px] leading-7 text-slate-600">{item.summary}</p>
-                <div className="mt-5 flex flex-wrap items-center gap-2">
-                  <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">{item.matterTitle}</span>
-                  <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">{getMatterStatusLabel(item.status)}</span>
-                  <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">{item.relatedPeople.length} 位相关人</span>
-                </div>
-              </button>
+          <div className="absolute left-1/2 top-1/2 w-[340px] -translate-x-1/2 -translate-y-1/2 rounded-[32px] border border-[#d9e4f3] bg-white/88 px-6 py-6 text-center shadow-[0_24px_64px_rgba(76,100,147,0.16)] backdrop-blur-md">
+            <div className="flex justify-center">
+              <span className={cn("rounded-full border px-3 py-1 text-xs", ASSUMPTION_STYLES[selectedAssumption.status].chip)}>
+                {ASSUMPTION_STYLES[selectedAssumption.status].label}
+              </span>
             </div>
-          ))}
+            <div className="mt-4 text-[29px] font-semibold tracking-tight text-slate-950">{selectedAssumption.content}</div>
+            <div className="mt-3 text-[14px] leading-7 text-slate-600">{selectedAssumption.origin_context}</div>
+            <div className="mt-5 flex flex-wrap justify-center gap-2">
+              <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">{selectedAssumption.inferred ? "AI 推断" : "老板明确"}</span>
+              <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">{selectedAssumption.related_people.length} 位相关人</span>
+              <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">{selectedAssumption.evidence_chain.length} 条证据</span>
+            </div>
+            <button
+              onClick={() => onOpenDetail(selectedAssumption.assumption_id)}
+              className="mt-6 rounded-full bg-[#c8956c] px-5 py-2.5 text-sm font-medium text-white transition hover:brightness-[0.98]"
+            >
+              查看完整证据链
+            </button>
+          </div>
+
+          {selectedAssumption.evidence_chain.map((entry, index) => {
+            const position = orbitPositions[index % orbitPositions.length];
+            return (
+              <button
+                key={`${entry.scene_id}-${index}`}
+                onClick={() => onOpenDetail(selectedAssumption.assumption_id)}
+                className="memory-float absolute rounded-[24px] border border-white/80 bg-white/86 p-4 text-left shadow-[0_18px_44px_rgba(43,57,71,0.08)] backdrop-blur-sm transition hover:-translate-y-0.5 hover:shadow-[0_22px_48px_rgba(43,57,71,0.1)]"
+                style={{
+                  left: `${position.left}%`,
+                  top: `${position.top}%`,
+                  width: position.width,
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <div className="text-[12px] uppercase tracking-[0.18em] text-slate-400">{formatDateTime(entry.timestamp)}</div>
+                  <span className="rounded-full bg-[#f4f6f8] px-2.5 py-1 text-[11px] text-slate-500">{getSceneTypeLabel(entry.scene_type)}</span>
+                </div>
+                <div className="mt-3 line-clamp-3 text-[14px] leading-6 text-slate-700">{entry.summary}</div>
+                <div className="mt-3 text-[12px] text-slate-400">{entry.source_call} · {entry.scene_id}</div>
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
   );
 }
 
-function MatterDetail({ matterId, onBack, onOpenPerson }) {
-  const matter = MATTERS.find((item) => item.id === matterId);
-  const [expandedAssumptionId, setExpandedAssumptionId] = useState(matter?.assumptions[0]?.id ?? null);
+function AssumptionsList({ onSelectAssumption }) {
+  const orderedAssumptions = useMemo(() => getOrderedAssumptions(), []);
 
-  useEffect(() => {
-    setExpandedAssumptionId(matter?.assumptions[0]?.id ?? null);
-  }, [matterId, matter]);
+  return (
+    <div className="space-y-4">
+      {orderedAssumptions.map((assumption) => {
+        const latestEvidence = getLatestEvidence(assumption);
+        return (
+          <button
+            key={assumption.assumption_id}
+            onClick={() => onSelectAssumption(assumption.assumption_id)}
+            className="w-full rounded-[28px] border border-[#ebe4db] bg-white/88 p-5 text-left shadow-[0_16px_38px_rgba(31,41,55,0.05)] transition-all hover:-translate-y-[1px] hover:shadow-[0_18px_42px_rgba(31,41,55,0.07)]"
+          >
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <div className="text-[24px] font-semibold tracking-tight text-slate-950">{assumption.content}</div>
+                  <span className={cn("rounded-full border px-2.5 py-1 text-xs", ASSUMPTION_STYLES[assumption.status].chip)}>
+                    {ASSUMPTION_STYLES[assumption.status].label}
+                  </span>
+                  <span className="rounded-full border border-[#e8e4de] bg-white px-2.5 py-1 text-xs text-slate-500">
+                    {assumption.inferred ? "AI 推断" : "老板明确"}
+                  </span>
+                </div>
+                <div className="mt-3 max-w-4xl text-[14px] leading-7 text-slate-600">{assumption.origin_context}</div>
+              </div>
+              <div className="rounded-[20px] bg-[#faf7f3] px-4 py-3 text-right">
+                <div className="text-[22px] font-semibold tracking-tight text-slate-900">{assumption.evidence_chain.length}</div>
+                <div className="mt-1 text-xs text-slate-400">证据条数</div>
+              </div>
+            </div>
 
-  if (!matter) return null;
+            {latestEvidence && (
+              <div className="mt-5 rounded-[22px] border border-[#ebe4db] bg-[#fffdfa] p-4">
+                <div className="flex flex-wrap items-center gap-2 text-[12px] text-slate-400">
+                  <span>{formatDateTime(latestEvidence.timestamp)}</span>
+                  <span>·</span>
+                  <span>{getSceneTypeLabel(latestEvidence.scene_type)}</span>
+                  <span>·</span>
+                  <span>{latestEvidence.source_call}</span>
+                </div>
+                <div className="mt-2 text-[15px] leading-7 text-slate-700">{latestEvidence.summary}</div>
+              </div>
+            )}
+
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              {assumption.related_people.map((personId) => {
+                const person = PEOPLE.find((item) => item.id === personId);
+                if (!person) return null;
+                return (
+                  <span key={person.id} className="rounded-full bg-[#f5f1eb] px-3 py-1 text-xs text-slate-500">
+                    {person.name}
+                  </span>
+                );
+              })}
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function AssumptionDetail({ assumptionId, onBack, onOpenPerson }) {
+  const assumption = ASSUMPTIONS.find((item) => item.assumption_id === assumptionId);
+  if (!assumption) return null;
+
+  const latestEvidence = getLatestEvidence(assumption);
 
   return (
     <div className="space-y-6">
@@ -1409,36 +1478,58 @@ function MatterDetail({ matterId, onBack, onOpenPerson }) {
         onClick={onBack}
         className="rounded-full border border-[#e8e4de] bg-white px-4 py-2 text-sm text-slate-500 transition hover:bg-[#faf7f3]"
       >
-        返回事项总览
+        返回前提总览
       </button>
 
-      <div className="grid gap-5 xl:grid-cols-[1.24fr_0.76fr]">
+      <div className="grid gap-5 xl:grid-cols-[1.2fr_0.8fr]">
         <div className="rounded-[32px] border border-[#ebe4db] bg-white/88 p-6 shadow-[0_24px_58px_rgba(31,41,55,0.08)]">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="rounded-full bg-[#edf3ff] px-3 py-1 text-xs font-medium text-[#5470b8]">{getMatterTypeLabel(matter.type)}</span>
-            <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">{getMatterStatusLabel(matter.status)}</span>
-            <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">{matter.owner}</span>
+            <span className={cn("rounded-full border px-3 py-1 text-xs", ASSUMPTION_STYLES[assumption.status].chip)}>
+              {ASSUMPTION_STYLES[assumption.status].label}
+            </span>
+            <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">
+              {assumption.inferred ? "AI 推断出来的前提" : "老板明确说过的前提"}
+            </span>
           </div>
-          <div className="mt-4 text-[34px] font-semibold tracking-tight text-slate-950">{matter.title}</div>
-          <div className="mt-2 text-[14px] text-slate-400">首次挂上记忆系统 · {matter.createdAt}</div>
-          <div className="mt-5 max-w-4xl text-[15px] leading-7 text-slate-600">{matter.summary}</div>
+          <div className="mt-4 text-[34px] font-semibold tracking-tight text-slate-950">{assumption.content}</div>
+          <div className="mt-4 rounded-[24px] border border-[#ebe4db] bg-[#fffdfa] p-5">
+            <div className="text-xs uppercase tracking-[0.18em] text-slate-400">它最早从哪里来</div>
+            <div className="mt-3 text-[15px] leading-7 text-slate-700">{assumption.origin_context}</div>
+          </div>
 
           <div className="mt-6 grid gap-4 md:grid-cols-3">
-            <MetricCard label="当前前提数" value={`${matter.assumptions.length}`} helper="这件事当前挂着的判断前提" />
-            <MetricCard label="最近变化" value={matter.updates[0]?.timestamp.split(" ")[0] ?? matter.updates[0]?.timestamp ?? "-"} helper={matter.updates[0]?.title ?? "暂无变化"} />
-            <MetricCard label="牵连到人" value={`${matter.relatedPeople.length}`} helper="谁会影响这件事的判断" />
+            <MetricCard label="创建时间" value={formatDate(assumption.created_at)} helper="进入记忆系统的时间" />
+            <MetricCard label="来源场景" value={assumption.source_scene_id} helper="最早写入它的 scene_id" />
+            <MetricCard label="证据总数" value={`${assumption.evidence_chain.length}`} helper="后来追加到这条前提的记录" />
           </div>
         </div>
 
-        <div className="rounded-[32px] border border-[#ebe4db] bg-[linear-gradient(180deg,#fffdf9_0%,#faf7f2_100%)] p-6 shadow-[0_20px_52px_rgba(31,41,55,0.06)]">
-          <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400">AI 合伙人判断</div>
-          <div className="mt-2.5 text-[26px] font-semibold tracking-tight text-slate-950">AI 现在怎么看这件事</div>
-          <p className="mt-4 text-[15px] leading-7 text-slate-600">{matter.aiView}</p>
+        <div className="space-y-5">
+          <div className="rounded-[32px] border border-[#ebe4db] bg-[linear-gradient(180deg,#fffdf9_0%,#faf7f2_100%)] p-6 shadow-[0_20px_52px_rgba(31,41,55,0.06)]">
+            <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400">当前状态</div>
+            <div className="mt-2.5 text-[26px] font-semibold tracking-tight text-slate-950">{ASSUMPTION_STYLES[assumption.status].label}</div>
+            <div className="mt-3 text-[14px] leading-7 text-slate-600">
+              {assumption.status === "active" && "这条前提还在持续追踪里，后续新的汇报、会议、文章和对话都会继续往上挂证据。"}
+              {assumption.status === "confirmed" && "这条前提已经被确认成立，当前更多是作为长期背景保留。"}
+              {assumption.status === "disproved" && "这条前提已经被明确证伪，后续分析会把它视为过去判断失效的背景。"}
+              {assumption.status === "expired" && "这条前提已经过期，不再作为当前判断的活跃背景继续追踪。"}
+            </div>
+            {latestEvidence && (
+              <div className="mt-5 rounded-[22px] border border-[#ebe4db] bg-white p-4">
+                <div className="text-xs uppercase tracking-[0.18em] text-slate-400">最近一条证据</div>
+                <div className="mt-3 text-[14px] leading-7 text-slate-700">{latestEvidence.summary}</div>
+                <div className="mt-3 text-[12px] text-slate-400">
+                  {formatDateTime(latestEvidence.timestamp)} · {getSceneTypeLabel(latestEvidence.scene_type)} · {latestEvidence.scene_id}
+                </div>
+              </div>
+            )}
+          </div>
 
-          <div className="mt-6 rounded-[24px] border border-[#ebe4db] bg-white p-5">
-            <div className="text-xs uppercase tracking-[0.18em] text-slate-400">这件事牵连到谁</div>
-            <div className="mt-4 flex flex-wrap gap-3">
-              {matter.relatedPeople.map((personId) => {
+          <div className="rounded-[32px] border border-[#ebe4db] bg-white/88 p-6 shadow-[0_20px_52px_rgba(31,41,55,0.06)]">
+            <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400">相关人</div>
+            <div className="mt-2.5 text-[24px] font-semibold tracking-tight text-slate-950">谁和这条前提有关</div>
+            <div className="mt-5 flex flex-wrap gap-3">
+              {assumption.related_people.map((personId) => {
                 const person = PEOPLE.find((item) => item.id === personId);
                 if (!person) return null;
                 return (
@@ -1465,133 +1556,59 @@ function MatterDetail({ matterId, onBack, onOpenPerson }) {
         </div>
       </div>
 
-      <div className="grid gap-5 xl:grid-cols-[1.04fr_0.96fr]">
-        <div className="rounded-[30px] border border-[#ebe4db] bg-white/88 p-5 shadow-[0_18px_46px_rgba(31,41,55,0.06)]">
-          <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400">前提</div>
-          <div className="mt-2 text-[24px] font-semibold tracking-tight text-slate-950">当时基于哪些前提</div>
-          <div className="mt-5 space-y-4">
-            {matter.assumptions.map((assumption) => {
-              const expanded = expandedAssumptionId === assumption.id;
-              return (
-                <div key={assumption.id} className="rounded-[24px] border border-[#ebe4db] bg-[#fffdfa] p-4">
-                  <button
-                    onClick={() => setExpandedAssumptionId((current) => current === assumption.id ? null : assumption.id)}
-                    className="flex w-full items-start justify-between gap-4 text-left"
-                  >
-                    <div className="min-w-0">
-                      <div className="text-[18px] font-semibold tracking-tight text-slate-900">{assumption.text}</div>
-                      <div className="mt-2 text-[14px] leading-7 text-slate-500">{assumption.latestEvidence}</div>
-                    </div>
-                    <span className={cn("rounded-full border px-2.5 py-1 text-xs", ASSUMPTION_STYLES[assumption.status].chip)}>
-                      {ASSUMPTION_STYLES[assumption.status].label}
-                    </span>
-                  </button>
-
-                  {expanded && (
-                    <div className="mt-5 border-t border-[#f1ebe3] pt-5">
-                      <div className="rounded-[20px] border border-[#eee7de] bg-white px-4 py-3">
-                        <div className="text-xs uppercase tracking-[0.16em] text-slate-400">为什么这件事重要</div>
-                        <div className="mt-2 text-[14px] leading-7 text-slate-600">{assumption.whyItMatters}</div>
-                      </div>
-
-                      <div className="mt-4 space-y-0">
-                        {assumption.evidenceChain.map((entry, index) => (
-                          <div key={`${entry.timestamp}-${index}`} className="relative flex gap-4 pb-5 pl-1 last:pb-0">
-                            <div className="relative flex w-7 shrink-0 justify-center">
-                              <div className={cn(
-                                "absolute top-0 h-3.5 w-3.5 rounded-full border-2 border-white shadow-sm",
-                                entry.direction === "support" ? "bg-[#5ba977]" : "bg-[#da7b72]"
-                              )} />
-                              {index < assumption.evidenceChain.length - 1 && <div className="absolute top-4 bottom-0 w-px bg-[#e8e1d8]" />}
-                            </div>
-                            <div className="min-w-0 flex-1 rounded-[20px] border border-[#ebe4db] bg-white px-4 py-3.5">
-                              <div className="flex flex-wrap items-center gap-2">
-                                <span className="text-xs uppercase tracking-[0.18em] text-slate-400">{entry.timestamp}</span>
-                                <span className="rounded-full bg-[#f5f1eb] px-2.5 py-1 text-[11px] text-slate-500">{entry.source}</span>
-                                <span className={cn(
-                                  "rounded-full px-2.5 py-1 text-[11px]",
-                                  entry.direction === "support" ? "bg-[#edf8f1] text-[#4d8b61]" : "bg-[#fff0ef] text-[#c2645f]"
-                                )}>
-                                  {getDirectionLabel(entry.direction)}
-                                </span>
-                                <span className={cn("rounded-full border px-2.5 py-1 text-[11px]", CONFIDENCE_STYLES[entry.confidence].chip)}>
-                                  {CONFIDENCE_STYLES[entry.confidence].label}
-                                </span>
-                              </div>
-                              <div className="mt-3 text-[15px] leading-7 text-slate-700">{entry.content}</div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+      <div className="rounded-[30px] border border-[#ebe4db] bg-white/88 p-5 shadow-[0_18px_46px_rgba(31,41,55,0.06)]">
+        <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400">证据链</div>
+        <div className="mt-2 text-[24px] font-semibold tracking-tight text-slate-950">后来有哪些记录落在它上面</div>
+        <div className="mt-5 space-y-0">
+          {[...assumption.evidence_chain]
+            .sort((left, right) => getTimestampValue(right.timestamp) - getTimestampValue(left.timestamp))
+            .map((entry, index, entries) => (
+              <div key={`${entry.scene_id}-${index}`} className="relative flex gap-4 pb-6 pl-1 last:pb-0">
+                <div className="relative flex w-7 shrink-0 justify-center">
+                  <div
+                    className="absolute top-0 h-3.5 w-3.5 rounded-full border-2 border-white shadow-sm"
+                    style={{ background:ASSUMPTION_STYLES[assumption.status].dot }}
+                  />
+                  {index < entries.length - 1 && <div className="absolute top-4 bottom-0 w-px bg-[#e8e1d8]" />}
                 </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="space-y-5">
-          <div className="rounded-[30px] border border-[#ebe4db] bg-white/88 p-5 shadow-[0_18px_46px_rgba(31,41,55,0.06)]">
-            <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400">时间线</div>
-            <div className="mt-2 text-[24px] font-semibold tracking-tight text-slate-950">最近有什么新变化</div>
-            <div className="mt-5 space-y-0">
-              {matter.updates.map((update, index) => (
-                <div key={update.id} className="relative flex gap-4 pb-6 pl-1 last:pb-0">
-                  <div className="relative flex w-7 shrink-0 justify-center">
-                    <div className="absolute top-0 h-3.5 w-3.5 rounded-full border-2 border-white bg-[#26c06c] shadow-sm" />
-                    {index < matter.updates.length - 1 && <div className="absolute top-4 bottom-0 w-px bg-[#e8e1d8]" />}
+                <div className="min-w-0 flex-1 rounded-[20px] border border-[#ebe4db] bg-[#fffdf9] px-4 py-3.5">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-xs uppercase tracking-[0.18em] text-slate-400">{formatDateTime(entry.timestamp)}</span>
+                    <span className="rounded-full bg-[#f5f1eb] px-2.5 py-1 text-[11px] text-slate-500">{getSceneTypeLabel(entry.scene_type)}</span>
+                    <span className="rounded-full bg-[#f5f1eb] px-2.5 py-1 text-[11px] text-slate-500">{entry.source_call}</span>
+                    <span className="rounded-full bg-[#f5f1eb] px-2.5 py-1 text-[11px] text-slate-500">{entry.scene_id}</span>
                   </div>
-                  <div className="min-w-0 flex-1 rounded-[20px] border border-[#ebe4db] bg-[#fffdf9] px-4 py-3.5">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <span className="text-xs uppercase tracking-[0.18em] text-slate-400">{update.timestamp}</span>
-                      <span className="text-xs text-slate-400">{update.subtitle}</span>
-                    </div>
-                    <div className="mt-3 text-[18px] font-medium tracking-tight text-slate-900">{update.title}</div>
-                    <p className="mt-2 text-[14px] leading-7 text-slate-600">{update.summary}</p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {update.tags.map((tag) => (
-                        <span key={tag} className="rounded-full bg-[#f3f7ff] px-2.5 py-1 text-[11px] text-[#6d88c3]">{tag}</span>
-                      ))}
-                    </div>
-                  </div>
+                  <div className="mt-3 text-[16px] leading-7 text-slate-700">{entry.summary}</div>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-[30px] border border-[#ebe4db] bg-[linear-gradient(180deg,#fffdf8_0%,#faf5ee_100%)] p-5 shadow-[0_18px_46px_rgba(31,41,55,0.06)]">
-            <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400">下一步</div>
-            <div className="mt-2 text-[24px] font-semibold tracking-tight text-slate-950">接下来该继续盯什么</div>
-            <div className="mt-3 text-[14px] leading-7 text-slate-600">
-              正式版里，这里会持续提醒你哪些前提还没坐实、哪些人会影响判断，以及这件事是不是该升级成明确动作。MVP 阶段先展示信息结构。
-            </div>
-          </div>
+              </div>
+            ))}
         </div>
       </div>
     </div>
   );
 }
 
-function MattersPage({ selectedMatterId, onSelectMatter, onBackToMatters, onOpenPerson }) {
-  if (selectedMatterId) {
-    return <MatterDetail matterId={selectedMatterId} onBack={onBackToMatters} onOpenPerson={onOpenPerson} />;
+function MattersPage({ assumptionView, selectedAssumptionId, onChangeAssumptionView, onSelectAssumption, onBackToAssumptions, onOpenPerson }) {
+  if (selectedAssumptionId) {
+    return <AssumptionDetail assumptionId={selectedAssumptionId} onBack={onBackToAssumptions} onOpenPerson={onOpenPerson} />;
   }
 
-  return (
-    <MatterTimelineOverview onSelectMatter={onSelectMatter} />
-  );
+  return assumptionView === "network"
+    ? <AssumptionOrbitView selectedAssumptionId={selectedAssumptionId} onSelectAssumption={onSelectAssumption} onOpenDetail={onSelectAssumption} />
+    : <AssumptionsList onSelectAssumption={onSelectAssumption} onChangeAssumptionView={onChangeAssumptionView} />;
 }
 
 export default function MemoryDemo() {
   const [section, setSection] = useState("people");
   const [peopleView, setPeopleView] = useState("network");
   const [activeFilter, setActiveFilter] = useState("all");
+  const [assumptionView, setAssumptionView] = useState("network");
   const [selectedPersonId, setSelectedPersonId] = useState(null);
-  const [selectedMatterId, setSelectedMatterId] = useState(null);
+  const [selectedAssumptionId, setSelectedAssumptionId] = useState(null);
   const [showAnnotations, setShowAnnotations] = useState(false);
 
   const focusCount = PEOPLE.filter((item) => item.status === "focus").length;
+  const activeAssumptionCount = ASSUMPTIONS.filter((item) => item.status === "active").length;
   const activeSectionMeta = SECTION_ITEMS.find((item) => item.key === section);
 
   return (
@@ -1622,7 +1639,7 @@ export default function MemoryDemo() {
                   onClick={() => {
                     setSection(item.key);
                     if (item.key !== "people") setSelectedPersonId(null);
-                    if (item.key !== "matters") setSelectedMatterId(null);
+                    if (item.key !== "matters") setSelectedAssumptionId(null);
                   }}
                   className={cn(
                     "flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left transition",
@@ -1632,7 +1649,7 @@ export default function MemoryDemo() {
                   <SidebarIcon active={active}>{item.key === "people" ? <PersonGlyph /> : <MatterGlyph />}</SidebarIcon>
                   <div>
                     <div className="text-[15px] font-medium">{item.label}</div>
-                    <div className="mt-0.5 text-xs text-slate-400">{item.key === "people" ? `${PEOPLE.length} 个联系人` : `${MATTERS.length} 个事项`}</div>
+                    <div className="mt-0.5 text-xs text-slate-400">{item.key === "people" ? `${PEOPLE.length} 个联系人` : `${ASSUMPTIONS.length} 条前提`}</div>
                   </div>
                 </button>
               );
@@ -1647,7 +1664,7 @@ export default function MemoryDemo() {
             <p className="mt-3 text-sm leading-6 text-slate-500">
               {section === "people"
                 ? "它把分散在会议、汇报、对话里的信号，持续整理成可行动的人脉判断。"
-                : "它记住的不是项目进度，而是你做判断时依赖的前提，以及这些前提最近有没有松动。"}
+                : "它记住的是你做决定时赌过的前提，以及后来哪些证据一条条落在了这些前提上。"}
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               {section === "people" ? (
@@ -1658,7 +1675,7 @@ export default function MemoryDemo() {
               ) : (
                 <>
                   <span className="rounded-full bg-[#faf7f2] px-3 py-1 text-xs text-slate-500">不是项目表</span>
-                  <span className="rounded-full bg-[#faf7f2] px-3 py-1 text-xs text-slate-500">盯前提变化</span>
+                  <span className="rounded-full bg-[#faf7f2] px-3 py-1 text-xs text-slate-500">是前提追踪</span>
                 </>
               )}
             </div>
@@ -1678,7 +1695,7 @@ export default function MemoryDemo() {
               </button>
             </div>
               <p className="mt-3 text-sm leading-6 text-slate-500">
-              人脉页聚焦这个人是谁、AI怎么看他、最近发生了什么，事项页聚焦决策假设。两者通过“人会影响事的判断”连接起来。
+              人脉页聚焦这个人是谁、AI怎么看他、最近发生了什么；事项页聚焦老板当初赌过什么前提，以及后来哪些证据落在了这些前提上。
               </p>
             </div>
         </div>
@@ -1689,12 +1706,12 @@ export default function MemoryDemo() {
               <div className="max-w-4xl">
                 <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400">Memory / {section === "people" ? "People" : "Matters"}</div>
                 <h1 className="mt-2.5 text-[34px] font-semibold tracking-tight text-slate-950">
-                  {section === "people" && selectedPersonId ? "人脉详情" : section === "matters" && selectedMatterId ? "事项详情" : activeSectionMeta?.label}
+                  {section === "people" && selectedPersonId ? "人脉详情" : section === "matters" && selectedAssumptionId ? "前提详情" : activeSectionMeta?.label}
                 </h1>
                 <p className="mt-2.5 max-w-3xl text-[14px] leading-7 text-slate-600">
                   {section === "people"
                     ? "AI 合伙人正在为你经营人脉：它把分散在会议、汇报、对话里的信号，持续整理成可行动的人脉判断。"
-                    : "AI 合伙人正在替你盯事项：它记住的不是项目进度，而是你做判断时依赖的前提。"}
+                    : "AI 合伙人正在替你盯事项：它把做决定时赌过的前提留在上下文里，再把后来新增的证据持续挂上去。"}
                 </p>
               </div>
 
@@ -1707,6 +1724,16 @@ export default function MemoryDemo() {
                   </div>
                 </div>
               )}
+
+              {section === "matters" && !selectedAssumptionId && (
+                <div className="flex flex-wrap items-center gap-3">
+                  <SectionChip active={assumptionView === "network"} onClick={() => setAssumptionView("network")}>星状模式</SectionChip>
+                  <SectionChip active={assumptionView === "list"} onClick={() => setAssumptionView("list")}>列表模式</SectionChip>
+                  <div className="rounded-full border border-[#e8e4de] bg-white px-4 py-2 text-sm text-slate-500">
+                    {activeAssumptionCount} 条仍在追踪
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -1715,7 +1742,7 @@ export default function MemoryDemo() {
               <div className="mb-5 rounded-[24px] border border-[#efd9bb] bg-[#fff8ee] px-5 py-4 text-sm leading-7 text-[#a36f29] shadow-[0_10px_24px_rgba(163,111,41,0.06)]">
                 {section === "people"
                   ? "人脉页展示的不是“联系人列表”，而是 AI 合伙人对人脉的持续经营结果。信息架构按记忆 PDF 收敛成“这个人是谁”“AI怎么看他”“最近发生了什么”，再补上关联事项，方便老板直接判断“这个人现在该不该盯”。"
-                  : "事项页展示的不是“项目进度”，而是 AI 合伙人替你持续盯着的决策前提。时间线帮你先回到事情怎么一步步发生，详情页再回答：当初依赖的前提，现在还成立吗。"}
+                  : "事项页展示的不是“项目进度”，而是前提假设追踪。星状模式把一条前提放在中央，证据链作为端点挂在外圈；详情页则完整展开 origin_context、status、related_people 和 evidence_chain。"}
               </div>
             )}
 
@@ -1733,12 +1760,14 @@ export default function MemoryDemo() {
 
             {section === "matters" && (
               <MattersPage
-                selectedMatterId={selectedMatterId}
-                onSelectMatter={setSelectedMatterId}
-                onBackToMatters={() => setSelectedMatterId(null)}
+                assumptionView={assumptionView}
+                selectedAssumptionId={selectedAssumptionId}
+                onChangeAssumptionView={setAssumptionView}
+                onSelectAssumption={setSelectedAssumptionId}
+                onBackToAssumptions={() => setSelectedAssumptionId(null)}
                 onOpenPerson={(personId) => {
                   setSection("people");
-                  setSelectedMatterId(null);
+                  setSelectedAssumptionId(null);
                   setSelectedPersonId(personId);
                 }}
               />
