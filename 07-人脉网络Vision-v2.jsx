@@ -321,7 +321,7 @@ export default function NetworkVisionPage() {
         background: "#161616", borderBottom: "1px solid #2a2a2a", padding: "7px 16px", flexShrink: 0,
       }}>
         <h1 style={{ color: "#ccc", fontWeight: 700, fontSize: 13, letterSpacing: "-0.01em" }}>
-          Demo 8/8 · 人脉圈 Vision 页
+          Demo 7/7 · 人脉网络 Vision 页（即将到来）
         </h1>
         <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#777", cursor: "pointer" }}>
           <input type="checkbox" checked={showAnnotations} onChange={e => setShowAnnotations(e.target.checked)}
@@ -337,36 +337,20 @@ export default function NetworkVisionPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {[
                 { key: "chat", icon: "💬", label: "对话", active: false },
-                { key: "people", icon: "👥", label: "人脉", active: false, badge: "内测" },
-                { key: "matters", icon: "🗂", label: "事项", active: false, badge: "内测" },
-                { key: "network", icon: "🔗", label: "人脉圈", active: true, badge: "Vision" },
+                { key: "memory", icon: "🧠", label: "记忆", active: false, badge: "内测" },
+                { key: "network", icon: "🔗", label: "人脉圈", active: true, badge: "即将到来" },
               ].map(item => (
-                <button
-                  key={item.key}
-                  onClick={() => {
-                    if (item.key === "chat") {
-                      window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "01" } }));
-                    }
-                    if (item.key === "people") {
-                      window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "06" } }));
-                    }
-                    if (item.key === "matters") {
-                      window.dispatchEvent(new CustomEvent("open-demo", { detail: { key: "07" } }));
-                    }
-                  }}
-                  style={{
-                    display: "flex", alignItems: "center", gap: 10,
-                    width: "100%", padding: "8px 12px", borderRadius: 10, fontSize: 13, fontWeight: 500,
-                    border: "none", textAlign: "left", background: "transparent", cursor: "pointer",
-                    ...(item.active
-                      ? { background: PALETTE.sidebarActive, color: "#fff", boxShadow: `inset 3px 0 0 ${PALETTE.accent}` }
-                      : { color: "#aaa" }),
-                  }}
-                >
+                <div key={item.key} style={{
+                  display: "flex", alignItems: "center", gap: 10,
+                  padding: "8px 12px", borderRadius: 10, fontSize: 13, fontWeight: 500,
+                  ...(item.active
+                    ? { background: PALETTE.sidebarActive, color: "#fff", boxShadow: `inset 3px 0 0 ${PALETTE.accent}` }
+                    : { color: "#aaa" }),
+                }}>
                   <span style={{ fontSize: 16 }}>{item.icon}</span>
                   <span>{item.label}</span>
                   {item.badge && <span style={{ marginLeft: "auto", fontSize: 10, background: item.active ? PALETTE.accent + "30" : "#333", color: item.active ? PALETTE.accent : "#888", padding: "2px 6px", borderRadius: 4 }}>{item.badge}</span>}
-                </button>
+                </div>
               ))}
             </div>
           </div>

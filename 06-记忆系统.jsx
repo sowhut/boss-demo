@@ -12,9 +12,9 @@ const STYLE = `
 }
 
 @keyframes memoryBeam {
-  0% { stroke-dashoffset: 0; opacity: .2; }
-  50% { opacity: .9; }
-  100% { stroke-dashoffset: -18; opacity: .25; }
+  0% { stroke-dashoffset: 0; opacity: .3; }
+  50% { opacity: .7; }
+  100% { stroke-dashoffset: -20; opacity: .3; }
 }
 
 .memory-float {
@@ -26,7 +26,7 @@ const STYLE = `
 }
 
 .memory-beam {
-  stroke-dasharray: 10 12;
+  stroke-dasharray: 6 4;
   animation: memoryBeam 6s linear infinite;
 }
 `;
@@ -101,7 +101,7 @@ const PEOPLE = [
         evidence: "会议纪要里明确说由他负责在月底前交付评估报告，作为预算审批前置条件。",
       },
     ],
-    network: { x: 76, y: 34, w: 246, accent: "#f199b9", halo: "#fde8ef" },
+    network: { x: 86, y: 26, w: 180, accent: "#f199b9", halo: "#fde8ef" },
   },
   {
     id: "lin",
@@ -152,7 +152,7 @@ const PEOPLE = [
         evidence: "周会中主动承接跨组动作，并把回收节点拆清楚。",
       },
     ],
-    network: { x: 70, y: 12, w: 224, accent: "#7fcbbf", halo: "#e6f7f3" },
+    network: { x: 80, y: 6, w: 178, accent: "#7fcbbf", halo: "#e6f7f3" },
   },
   {
     id: "qi",
@@ -191,7 +191,7 @@ const PEOPLE = [
         evidence: "老板说：‘涉及消息链路的事，齐远的话我基本信。’",
       },
     ],
-    network: { x: 88, y: 42, w: 208, accent: "#b99af5", halo: "#f1ebff" },
+    network: { x: 93, y: 50, w: 175, accent: "#b99af5", halo: "#f1ebff" },
   },
   {
     id: "jiang",
@@ -230,7 +230,7 @@ const PEOPLE = [
         evidence: "会上明确说‘如果节奏被打乱，渠道效率数字再好看也不值。’",
       },
     ],
-    network: { x: 73, y: 58, w: 236, accent: "#8fd39a", halo: "#ecfaee" },
+    network: { x: 88, y: 68, w: 178, accent: "#8fd39a", halo: "#ecfaee" },
   },
   {
     id: "bai",
@@ -269,7 +269,7 @@ const PEOPLE = [
         evidence: "活动结束后一周内持续互动，对后续 workshop 方向有参与意愿。",
       },
     ],
-    network: { x: 32, y: 12, w: 220, accent: "#b48cf2", halo: "#f2ebff" },
+    network: { x: 18, y: 8, w: 175, accent: "#b48cf2", halo: "#f2ebff" },
   },
   {
     id: "li",
@@ -308,7 +308,7 @@ const PEOPLE = [
         evidence: "他只问了‘现有团队真能接吗’，没有顺着讲增长故事。",
       },
     ],
-    network: { x: 48, y: 18, w: 208, accent: "#8ecb92", halo: "#ebf8ec" },
+    network: { x: 48, y: 6, w: 175, accent: "#8ecb92", halo: "#ebf8ec" },
   },
   {
     id: "tang",
@@ -347,7 +347,7 @@ const PEOPLE = [
         evidence: "对话中提到：‘跟他聊能知道外面怎么变，但最后还是得落回我们自己的盘子。’",
       },
     ],
-    network: { x: 10, y: 44, w: 218, accent: "#8ec58d", halo: "#edf9eb" },
+    network: { x: 6, y: 46, w: 175, accent: "#8ec58d", halo: "#edf9eb" },
   },
   {
     id: "jiangwen",
@@ -386,7 +386,7 @@ const PEOPLE = [
         evidence: "对话记录里提到‘蒋迟整理脉络很快，适合先帮我把线索收住。’",
       },
     ],
-    network: { x: 24, y: 28, w: 208, accent: "#9aa8f2", halo: "#eef1ff" },
+    network: { x: 10, y: 26, w: 175, accent: "#9aa8f2", halo: "#eef1ff" },
   },
   {
     id: "zhaolin",
@@ -425,7 +425,7 @@ const PEOPLE = [
         evidence: "客户在会中反复确认投入产出测算，对抽象品牌收益没有兴趣。",
       },
     ],
-    network: { x: 22, y: 60, w: 204, accent: "#89bdf2", halo: "#edf5ff" },
+    network: { x: 8, y: 68, w: 175, accent: "#89bdf2", halo: "#edf5ff" },
   },
   {
     id: "shen",
@@ -464,7 +464,7 @@ const PEOPLE = [
         evidence: "近两周由他主动发起的沟通明显增多，但还没进入实质合作阶段。",
       },
     ],
-    network: { x: 30, y: 72, w: 210, accent: "#c4a5f7", halo: "#f6efff" },
+    network: { x: 20, y: 90, w: 175, accent: "#c4a5f7", halo: "#f6efff" },
   },
   {
     id: "wen",
@@ -505,7 +505,7 @@ const PEOPLE = [
         evidence: "会上首先问‘这个版本边界到底落在哪’，把需求收得更清楚。",
       },
     ],
-    network: { x: 48, y: 72, w: 230, accent: "#93cf8d", halo: "#eef9ec" },
+    network: { x: 50, y: 92, w: 178, accent: "#93cf8d", halo: "#eef9ec" },
   },
   {
     id: "qiao",
@@ -544,7 +544,7 @@ const PEOPLE = [
         evidence: "对会上‘先抢进度后补细节’的提法明显不满意。",
       },
     ],
-    network: { x: 70, y: 74, w: 222, accent: "#b58cf0", halo: "#f2ebff" },
+    network: { x: 82, y: 90, w: 178, accent: "#b58cf0", halo: "#f2ebff" },
   },
 ];
 
@@ -895,35 +895,35 @@ function PersonNodeCard({ person, active, onClick }) {
     <button
       onClick={onClick}
       className={cn(
-        "memory-float absolute rounded-[28px] border bg-white/84 p-5 text-left backdrop-blur-sm transition-all",
+        "memory-float absolute rounded-[20px] border bg-white/84 px-3.5 py-3 text-left backdrop-blur-sm transition-all",
         active
-          ? "border-[#d7c5b7] shadow-[0_22px_48px_rgba(43,57,71,0.12)]"
-          : "border-white/80 shadow-[0_18px_44px_rgba(43,57,71,0.08)] hover:-translate-y-0.5 hover:shadow-[0_22px_48px_rgba(43,57,71,0.1)]"
+          ? "border-[#d7c5b7] shadow-[0_16px_36px_rgba(43,57,71,0.12)]"
+          : "border-white/80 shadow-[0_12px_28px_rgba(43,57,71,0.08)] hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(43,57,71,0.1)]"
       )}
       style={{
         left:`${person.network.x}%`,
         top:`${person.network.y}%`,
-        width:Math.min(person.network.w, 220),
+        width:Math.min(person.network.w, 180),
         transform:"translate(-50%, -50%)",
       }}
     >
-      <div className="flex items-start gap-3">
+      <div className="flex items-start gap-2.5">
         <div
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl text-base font-semibold"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl text-sm font-semibold"
           style={{ background:person.network.halo, color:person.network.accent }}
         >
           {person.avatar}
         </div>
         <div className="min-w-0 flex-1">
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center justify-between gap-2">
             <div>
-              <div className="text-[18px] font-semibold tracking-tight text-slate-900">{person.name}</div>
-              <div className="text-[13px] text-slate-400">{person.relationship}</div>
+              <div className="text-[15px] font-semibold tracking-tight text-slate-900">{person.name}</div>
+              <div className="text-[11px] text-slate-400">{person.relationship}</div>
             </div>
-            <span className={cn("rounded-full border px-2.5 py-1 text-[11px]", style.chip)}>{style.label}</span>
+            <span className={cn("rounded-full border px-2 py-0.5 text-[10px]", style.chip)}>{style.label}</span>
           </div>
-          <p className="mt-2.5 line-clamp-2 text-[13px] leading-5 text-slate-500">{person.summary}</p>
-          <div className="mt-3 text-[13px] font-medium" style={{ color:person.network.accent }}>{person.patternHeadline}</div>
+          <p className="mt-1.5 line-clamp-2 text-[11px] leading-4 text-slate-500">{person.summary}</p>
+          <div className="mt-2 text-[11px] font-medium" style={{ color:person.network.accent }}>{person.patternHeadline}</div>
         </div>
       </div>
     </button>
@@ -942,8 +942,8 @@ function MemoryNetwork({ people, onSelectPerson }) {
       patterns: patternCount,
     };
   }, [people]);
-  const stageWidth = 1060;
-  const stageHeight = 620;
+  const stageWidth = 1280;
+  const stageHeight = 720;
   const stageScale = getStageScale({
     viewportWidth: viewport.width,
     viewportHeight: viewport.height,
@@ -951,7 +951,7 @@ function MemoryNetwork({ people, onSelectPerson }) {
     baseHeight: stageHeight,
     widthOffset: 420,
     heightOffset: 300,
-    minScale: 0.7,
+    minScale: 0.6,
   });
 
   return (
@@ -972,20 +972,30 @@ function MemoryNetwork({ people, onSelectPerson }) {
             transformOrigin: "top center",
           }}
         >
-          <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <svg className="absolute inset-0 h-full w-full" viewBox={`0 0 ${stageWidth} ${stageHeight}`}>
             {people.map((person) => {
-              const dx = person.network.x - 50;
-              const dy = person.network.y - 50;
-              const controlX = 50 + dx * 0.45;
-              const controlY = 50 + dy * 0.08;
+              const px = person.network.x / 100 * stageWidth;
+              const py = person.network.y / 100 * stageHeight;
+              const cx = stageWidth / 2;
+              const cy = stageHeight / 2;
+              const mx = (cx + px) / 2;
+              const my = (cy + py) / 2;
+              const dx = px - cx;
+              const dy = py - cy;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              const nx = -dy / dist;
+              const ny = dx / dist;
+              const bend = dist * 0.15;
+              const ctrlX = mx + nx * bend;
+              const ctrlY = my + ny * bend;
               return (
                 <path
                   key={person.id}
                   className="memory-beam"
-                  d={`M 50 50 Q ${controlX} ${controlY} ${person.network.x} ${person.network.y}`}
+                  d={`M ${cx} ${cy} Q ${ctrlX} ${ctrlY} ${px} ${py}`}
                   fill="none"
                   stroke={person.network.accent}
-                  strokeWidth="0.24"
+                  strokeWidth="1.5"
                   strokeLinecap="round"
                 />
               );
@@ -993,12 +1003,12 @@ function MemoryNetwork({ people, onSelectPerson }) {
           </svg>
 
           <div
-            className="absolute left-1/2 top-1/2 w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-[30px] border border-[#d9e4f3] bg-white/86 px-6 py-6 text-center shadow-[0_24px_64px_rgba(76,100,147,0.16)] backdrop-blur-md"
+            className="absolute left-1/2 top-1/2 w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-[30px] border border-[#d9e4f3] bg-white/86 px-5 py-5 text-center shadow-[0_24px_64px_rgba(76,100,147,0.16)] backdrop-blur-md"
           >
             <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400">AI People Memory</div>
-            <div className="mt-2.5 text-[34px] font-semibold tracking-tight text-slate-950">人脉</div>
-            <div className="mt-2 text-[13px] leading-6 text-slate-500">AI 合伙人替你把会议、汇报、对话里的零散信号，持续整理成可行动的人脉判断。</div>
-            <div className="mt-5 grid grid-cols-4 gap-2.5">
+            <div className="mt-2 text-[28px] font-semibold tracking-tight text-slate-950">人脉</div>
+            <div className="mt-1.5 text-[12px] leading-5 text-slate-500">把分散的信号整理成可行动的人脉判断</div>
+            <div className="mt-4 grid grid-cols-4 gap-2">
               {[
                 { label:"总人数", value:stats.total },
                 { label:"需关注", value:stats.focus },
@@ -1332,8 +1342,8 @@ function AssumptionOrbitView({ selectedAssumptionId, onSelectAssumption, onOpenD
   const selectedAssumption = orderedAssumptions.find((item) => item.assumption_id === selectedAssumptionId) ?? orderedAssumptions[0];
   const activeCount = ASSUMPTIONS.filter((item) => item.status === "active").length;
   const totalEvidenceCount = ASSUMPTIONS.reduce((count, item) => count + item.evidence_chain.length, 0);
-  const stageWidth = 960;
-  const stageHeight = 640;
+  const stageWidth = 1060;
+  const stageHeight = 700;
   const stageScale = getStageScale({
     viewportWidth: viewport.width,
     viewportHeight: viewport.height,
@@ -1341,15 +1351,15 @@ function AssumptionOrbitView({ selectedAssumptionId, onSelectAssumption, onOpenD
     baseHeight: stageHeight,
     widthOffset: 640,
     heightOffset: 320,
-    minScale: 0.64,
+    minScale: 0.58,
   });
   const orbitPositions = [
-    { left: 18, top: 24, width: 196 },
-    { left: 82, top: 22, width: 196 },
-    { left: 84, top: 70, width: 204 },
-    { left: 16, top: 72, width: 204 },
-    { left: 50, top: 12, width: 184 },
-    { left: 50, top: 86, width: 184 },
+    { left: 12, top: 20, width: 186 },
+    { left: 88, top: 18, width: 186 },
+    { left: 90, top: 76, width: 186 },
+    { left: 10, top: 78, width: 186 },
+    { left: 50, top: 6, width: 176 },
+    { left: 50, top: 92, width: 176 },
   ];
 
   return (
@@ -1397,35 +1407,45 @@ function AssumptionOrbitView({ selectedAssumptionId, onSelectAssumption, onOpenD
               transformOrigin: "top center",
             }}
           >
-            <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <svg className="absolute inset-0 h-full w-full" viewBox={`0 0 ${stageWidth} ${stageHeight}`}>
               {selectedAssumption.evidence_chain.map((entry, index) => {
                 const position = orbitPositions[index % orbitPositions.length];
-                const dx = position.left - 50;
-                const dy = position.top - 50;
-                const controlX = 50 + dx * 0.42;
-                const controlY = 50 + dy * 0.1;
+                const px = position.left / 100 * stageWidth;
+                const py = position.top / 100 * stageHeight;
+                const cx = stageWidth / 2;
+                const cy = stageHeight / 2;
+                const mx = (cx + px) / 2;
+                const my = (cy + py) / 2;
+                const ddx = px - cx;
+                const ddy = py - cy;
+                const dist = Math.sqrt(ddx * ddx + ddy * ddy);
+                const nx = -ddy / dist;
+                const ny = ddx / dist;
+                const bend = dist * 0.15;
+                const ctrlX = mx + nx * bend;
+                const ctrlY = my + ny * bend;
                 return (
                   <path
                     key={`${entry.scene_id}-${index}`}
                     className="memory-beam"
-                    d={`M 50 50 Q ${controlX} ${controlY} ${position.left} ${position.top}`}
+                    d={`M ${cx} ${cy} Q ${ctrlX} ${ctrlY} ${px} ${py}`}
                     fill="none"
                     stroke={ASSUMPTION_STYLES[selectedAssumption.status].dot}
-                    strokeWidth="0.24"
+                    strokeWidth="1.5"
                     strokeLinecap="round"
                   />
                 );
               })}
             </svg>
 
-            <div className="absolute left-1/2 top-1/2 w-[340px] -translate-x-1/2 -translate-y-1/2 rounded-[32px] border border-[#d9e4f3] bg-white/88 px-6 py-6 text-center shadow-[0_24px_64px_rgba(76,100,147,0.16)] backdrop-blur-md">
+            <div className="absolute left-1/2 top-1/2 w-[290px] -translate-x-1/2 -translate-y-1/2 rounded-[28px] border border-[#d9e4f3] bg-white/88 px-5 py-5 text-center shadow-[0_24px_64px_rgba(76,100,147,0.16)] backdrop-blur-md">
               <div className="flex justify-center">
                 <span className={cn("rounded-full border px-3 py-1 text-xs", ASSUMPTION_STYLES[selectedAssumption.status].chip)}>
                   {ASSUMPTION_STYLES[selectedAssumption.status].label}
                 </span>
               </div>
-              <div className="mt-4 text-[29px] font-semibold tracking-tight text-slate-950">{selectedAssumption.content}</div>
-              <div className="mt-3 text-[14px] leading-7 text-slate-600">{selectedAssumption.origin_context}</div>
+              <div className="mt-3 text-[24px] font-semibold tracking-tight text-slate-950">{selectedAssumption.content}</div>
+              <div className="mt-2 text-[13px] leading-6 text-slate-600">{selectedAssumption.origin_context}</div>
               <div className="mt-5 flex flex-wrap justify-center gap-2">
                 <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">{selectedAssumption.inferred ? "AI 推断" : "老板明确"}</span>
                 <span className="rounded-full border border-[#e8e4de] bg-white px-3 py-1 text-xs text-slate-500">{selectedAssumption.related_people.length} 位相关人</span>
@@ -1445,7 +1465,7 @@ function AssumptionOrbitView({ selectedAssumptionId, onSelectAssumption, onOpenD
                 <button
                   key={`${entry.scene_id}-${index}`}
                   onClick={() => onOpenDetail(selectedAssumption.assumption_id)}
-                  className="memory-float absolute rounded-[24px] border border-white/80 bg-white/86 p-4 text-left shadow-[0_18px_44px_rgba(43,57,71,0.08)] backdrop-blur-sm transition hover:-translate-y-0.5 hover:shadow-[0_22px_48px_rgba(43,57,71,0.1)]"
+                  className="memory-float absolute rounded-[18px] border border-white/80 bg-white/86 px-3.5 py-3 text-left shadow-[0_14px_32px_rgba(43,57,71,0.08)] backdrop-blur-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(43,57,71,0.1)]"
                   style={{
                     left: `${position.left}%`,
                     top: `${position.top}%`,
